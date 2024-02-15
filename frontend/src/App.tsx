@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css';
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
-import Eintrag from './Eintrag';
+import Eintrag from './components/Eintrag';
 
 export default function App() {
   return (

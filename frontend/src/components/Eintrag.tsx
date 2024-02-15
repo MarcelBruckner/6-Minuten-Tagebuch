@@ -1,8 +1,8 @@
 import { useState } from "react";
-import IchBinDankbarFuer, { IchBinDankbarFuerValues } from "./components/IchBinDankbarFuer";
-import SoSorgeIchFuerEinenGutenTag, { SoSorgeIchFuerEinenGutenTagValues } from "./components/SoSorgeIchFuerEinenGutenTag";
-import PositiveSelbstbekraeftigung, { PositiveSelbstbekraeftigungValues } from "./components/PositiveSelbstbekraeftigung";
-import Spruch from "./components/Spruch";
+import IchBinDankbarFuer, { IchBinDankbarFuerValues } from "./IchBinDankbarFuer";
+import SoSorgeIchFuerEinenGutenTag, { SoSorgeIchFuerEinenGutenTagValues } from "./SoSorgeIchFuerEinenGutenTag";
+import PositiveSelbstbekraeftigung, { PositiveSelbstbekraeftigungValues } from "./PositiveSelbstbekraeftigung";
+import Spruch from "./Spruch";
 
 export default function Eintrag() {
     const [ichBinDankbarFuerValues, setIchBinDankbarFuerValues] = useState<IchBinDankbarFuerValues>(new IchBinDankbarFuerValues(["", "", ""]));
