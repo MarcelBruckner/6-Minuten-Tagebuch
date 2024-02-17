@@ -6,7 +6,11 @@ import '@fontsource/roboto/700.css';
 import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
-import Eintrag from './components/Eintrag';
+import { OpenAPI } from './client';
+import Eintrag from './components/EintragComponent';
+
+OpenAPI.BASE = 'http://localhost:4001';
+
 
 export default function App() {
   return (

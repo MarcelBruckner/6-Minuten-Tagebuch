@@ -7,3 +7,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - 4000:80
+
+  backend:
+    image: sechs-minuten-tagebuch/backend
+    container_name: sechs-minuten-tagebuch-backend
+    build: 
+      context: backend
+      dockerfile: Dockerfile
+    ports:
+      - 4001:80
+    volumes:
+      - ./data:/app/data
