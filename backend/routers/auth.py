@@ -1,20 +1,20 @@
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from fastapi import APIRouter
-from models import Token, TokenData, User, UserInDB
+from models.token import Token, TokenData
+from models.user import User, UserInDB
 from datetime import datetime, timedelta, timezone
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from routers import users
 
 SECRET_KEY = "4352c9036368100cb0e7292aae9c0d10eee244b147a1a53148c2cfd19ecbd324"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-GENERAL_TEST_USER = UserInDB(username="--Test User", full_name="Test User", email="test@user.com",
+GENERAL_TEST_USER = UserInDB(username="Test User", full_name="Test User", email="test@user.com",
                              hashed_password="super-secret-hash")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

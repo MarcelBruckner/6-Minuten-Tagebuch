@@ -3,8 +3,9 @@ import datetime
 from typing import Annotated
 from fastapi import APIRouter, Depends
 
-from models import EintragModel, User
-from persistence import read_eintrag, write_eintrag
+from models.eintrag import EintragModel
+from database.eintrag import read_eintrag, write_eintrag
+from models.user import User
 from routers import auth
 
 

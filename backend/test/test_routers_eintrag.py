@@ -1,7 +1,7 @@
 import datetime
 from fastapi.testclient import TestClient
 from main import app
-from models import EintragModel
+from models.eintrag import EintragModel
 from utils import get_auth_headers
 
 client = TestClient(app)

@@ -1,15 +1,16 @@
 import datetime
+from database.eintrag import delete_user_data, read_eintrag, write_eintrag
+from models.eintrag import EintragModel
 
-from models import EintragModel
-from persistence import delete_user_data, read_eintrag, write_eintrag
 from routers.auth import GENERAL_TEST_USER
 
 TEST_USER = GENERAL_TEST_USER
+PATH = ["tmp", "tests", "database"]
 
 
 def test_read_eintrag():
     datum = datetime.date(1970, 1, 1)
-    actual_eintrag = read_eintrag(TEST_USER, datum)
+    actual_eintrag = read_eintrag(TEST_USER, datum, *PATH)
     assert isinstance(actual_eintrag, EintragModel)
 
 
@@ -26,9 +27,9 @@ def test_read_write_eintrag():
                                     einePositiveAffirmation="einePositiveAffirmation",
                                     spruch="spruch")
 
-    write_eintrag(TEST_USER, expected_eintrag)
-    actual_eintrag = read_eintrag(TEST_USER, datum)
+    write_eintrag(TEST_USER, expected_eintrag, *PATH)
+    actual_eintrag = read_eintrag(TEST_USER, datum, *PATH)
 
     assert expected_eintrag == actual_eintrag
 
-    assert delete_user_data(TEST_USER)
+    assert delete_user_data(TEST_USER, *PATH)

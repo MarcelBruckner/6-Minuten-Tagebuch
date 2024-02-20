@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from models import User, UserInDB
+from models.user import User
 from typing import Annotated
 
 from fastapi import Depends
