@@ -30,7 +30,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-client": "openapi --input http://localhost:4001/openapi.json --output .\\src\\client --client axios --useOptions --useUnionTypes"
+    "generate-client": "openapi --input http://localhost:81/openapi.json --output .\\src\\client --client axios --useOptions --useUnionTypes"
   },
   "eslintConfig": {
     "extends": [

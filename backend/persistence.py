@@ -2,38 +2,45 @@ import dataclasses
 import datetime
 import json
 import pathlib
+import shutil
 from constants import DATE_FORMAT
-from models import EintragModel
+from models import EintragModel, User, UserIn, UserInDB
 
 
-def _get_path(datum: datetime.date) -> pathlib.Path:
-    return pathlib.Path("data", f'{datum.strftime(DATE_FORMAT)}.json')
+def _get_path(user: User, datum: datetime.date | None = None) -> pathlib.Path:
+    if datum == None:
+        return pathlib.Path("data", user.username)
+    return pathlib.Path("data", user.username, f'{datum.strftime(DATE_FORMAT)}.json')
 
 
-def exists_eintrag(datum: datetime.date) -> bool:
-    return _get_path(datum).exists()
+def exists_eintrag(user: User, datum: datetime.date) -> bool:
+    return _get_path(user, datum).exists()
 
 
-def write_eintrag(eintrag: EintragModel) -> bool:
-    path = _get_path(eintrag.datum)
+def write_eintrag(user: User, eintrag: EintragModel) -> bool:
+    path = _get_path(user, eintrag.datum)
     path.parent.mkdir(exist_ok=True)
-    json_data = json.dumps(dataclasses.asdict(eintrag),
-                           indent=4, sort_keys=True, default=str, ensure_ascii=False)
+    json_data = eintrag.model_dump_json(indent=2)
     path.write_text(json_data, encoding='utf-8')
-    return exists_eintrag(eintrag.datum)
+    return exists_eintrag(user, eintrag.datum)
 
 
-def read_eintrag(datum: datetime.date) -> EintragModel:
-    if not exists_eintrag(datum):
-        return EintragModel(datum)
+def read_eintrag(user: User, datum: datetime.date) -> EintragModel:
+    if not exists_eintrag(user, datum):
+        return EintragModel(datum=datum)
 
-    path = _get_path(datum)
-    eintrag = EintragModel.from_json(
-        json.loads(path.read_text(encoding='utf-8')))
+    path = _get_path(user, datum)
+    eintrag = EintragModel(**json.loads(path.read_text(encoding='utf-8')))
     return eintrag
 
 
-def delete_eintrag(datum: datetime.date) -> bool:
-    path = _get_path(datum)
+def delete_eintrag(user: User, datum: datetime.date) -> bool:
+    path = _get_path(user, datum)
     path.unlink()
+    return not path.exists()
+
+
+def delete_user_data(user: User) -> bool:
+    path = _get_path(user)
+    shutil.rmtree(path, ignore_errors=True)
     return not path.exists()

@@ -1,45 +1,46 @@
-from dataclasses import dataclass, field
-
+from pydantic import BaseModel, EmailStr, Field
 import datetime
-from typing import List, Tuple
-
-from constants import DATE_FORMAT
+from typing import List
 
 
-@dataclass(eq=False)
-class EintragModel:
-    datum: datetime.date
+class EintragModel(BaseModel):
+    datum: datetime.date = Field(examples=[datetime.date.today()])
 
-    dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: List[str]
-    dasNehmeIchMirHeuteVor: str
-    heuteWirdGutWeil: str
+    dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: List[str] = [
+        "", "", ""]
+    dasNehmeIchMirHeuteVor: str = ""
+    heuteWirdGutWeil: str = ""
 
-    spruch: str
+    spruch: str = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho'
 
-    einePositiveAffirmation: str
-    dieSchoenstenMomentaAmHeutigenTag: List[str]
-    morgenFreueIchMichAuf: str
+    einePositiveAffirmation: str = ""
+    dieSchoenstenMomentaAmHeutigenTag: List[str] = ["", "", ""]
+    morgenFreueIchMichAuf: str = ""
 
-    def __init__(self, datum, dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: List[str] = None, dasNehmeIchMirHeuteVor: str = "", heuteWirdGutWeil: str = "", spruch: str = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho', einePositiveAffirmation: str = "", dieSchoenstenMomentaAmHeutigenTag: List[str] = None, morgenFreueIchMichAuf: str = ""):
-        self.datum = datum
 
-        self.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin = dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin if isinstance(
-            dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin, list) else ["", "", ""]
-        self.dasNehmeIchMirHeuteVor = dasNehmeIchMirHeuteVor
-        self.heuteWirdGutWeil = heuteWirdGutWeil
+class User(BaseModel):
+    username: str
+    email: EmailStr
+    full_name: str | None = None
+    disabled: bool | None = None
 
-        self.spruch = spruch
 
-        self.einePositiveAffirmation = einePositiveAffirmation
-        self.dieSchoenstenMomentaAmHeutigenTag = dieSchoenstenMomentaAmHeutigenTag if isinstance(
-            dieSchoenstenMomentaAmHeutigenTag, list) else ["", "", ""]
-        self.morgenFreueIchMichAuf = morgenFreueIchMichAuf
+class UserIn(User):
+    password: str
 
-    @staticmethod
-    def from_json(data: dict):
-        datum = datetime.datetime.strptime(data['datum'], DATE_FORMAT).date()
-        del data['datum']
-        return EintragModel(datum=datum, **data)
 
-    def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+class UserOut(User):
+    pass
+
+
+class UserInDB(User):
+    hashed_password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    username: str | None = None

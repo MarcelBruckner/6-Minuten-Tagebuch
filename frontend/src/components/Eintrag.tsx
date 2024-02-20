@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import IchBinDankbarFuer from "./MyMultipleLinesTextField";
 import Spruch from "./Spruch";
 import { EintragModel, EintragService } from "../client";
 import moment from "moment";
@@ -14,7 +13,6 @@ export default function Eintrag() {
 
     const EINE_POSITIVE_AFFIRMATION = "Eine positive Affirmation";
     const DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG = "Die schönsten Momente am heutigen Tag";
-
     const MORGEN_FREUE_ICH_MICH_AUF = "Morgen freue ich mich auf";
 
     const [eintrag, setEintrag] = useState<EintragModel>({

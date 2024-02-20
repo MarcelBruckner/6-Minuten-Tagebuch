@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   frontend:
     image: sechs-minuten-tagebuch/frontend
@@ -5,8 +7,12 @@ services:
     build: 
       context: frontend
       dockerfile: Dockerfile
+      args:
+        BACKEND_URL: http://localhost:4001
     ports:
       - 4000:80
+    depends_on:
+      - backend
 
   backend:
     image: sechs-minuten-tagebuch/backend
@@ -15,6 +21,6 @@ services:
       context: backend
       dockerfile: Dockerfile
     ports:
-      - 4001:80
+      - 4001:81
     volumes:
       - ./data:/app/data

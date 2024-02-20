@@ -7,9 +7,11 @@ import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container } from '@mui/material';
 import { OpenAPI } from './client';
-import Eintrag from './components/EintragComponent';
+import Eintrag from './components/Eintrag';
+import Environment from './util/Environment';
 
-OpenAPI.BASE = 'http://localhost:4001';
+OpenAPI.BASE = Environment.getBackendUrl();
+console.log(OpenAPI.BASE)
 
 
 export default function App() {
