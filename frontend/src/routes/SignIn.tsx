@@ -29,7 +29,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
     const [userIn, setUserIn] = React.useState<UserIn>({ email: "", password: "", username: "" })
     const [formErrors, setFormErrors] = React.useState<Array<string>>([])
     const [validationErrors, setValidationErrors] = React.useState<Array<string>>([])
-    const [cookies, setCookie] = useCookies(['token', 'backend_url'])
+    const [cookies, setCookie] = useCookies(['sechs_minuten_tagebuch_token', 'backend_url'])
 
     const passwordError = React.useMemo<boolean>(() => formErrors.includes(PASSWORD_ERROR), [formErrors])
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
@@ -114,9 +114,9 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             if (remember) {
                 const token = jwtDecode(response.access_token) as { sub: string, exp: number };
                 const expires = new Date(token.exp * 1000);
-                setCookie('token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
+                setCookie('sechs_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
             } else {
-                setCookie('token', response.access_token, { secure: true, sameSite: 'none' })
+                setCookie('sechs_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none' })
             }
             console.log(response.access_token);
             OpenAPI.TOKEN = response.access_token;
