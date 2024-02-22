@@ -2,8 +2,8 @@ version: '3.9'
 
 services:
   frontend:
-    image: sechs-minuten-tagebuch/frontend
-    container_name: sechs-minuten-tagebuch
+    image: fuenf-minuten-tagebuch/frontend
+    container_name: fuenf-minuten-tagebuch
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -13,10 +13,16 @@ services:
       - backend
     networks:
       nginx:
+    labels:
+      - homepage.group=Social
+      - homepage.name=5-Minuten Tagebuch
+      - homepage.icon=mdi-book
+      - homepage.href=https://5-minuten-tagebuch.marcelbruckner.info/
+      - homepage.description=Unser digitales 5-Minuten Tagebuch
 
   backend:
-    image: sechs-minuten-tagebuch/backend
-    container_name: sechs-minuten-tagebuch-backend
+    image: fuenf-minuten-tagebuch/api
+    container_name: fuenf-minuten-tagebuch-api
     build:
       context: backend
       dockerfile: Dockerfile
@@ -33,3 +39,4 @@ services:
 
 networks:
   nginx:  
+    external: true
