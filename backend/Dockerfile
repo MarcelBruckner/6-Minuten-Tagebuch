@@ -12,6 +12,9 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 # 
 COPY ./routers /app/routers
+COPY ./database /app/database
+COPY ./models /app/models
+COPY ./common /app/common
 COPY ./*.py /app
 
 # 

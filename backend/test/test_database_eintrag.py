@@ -1,8 +1,8 @@
 import datetime
 from database.eintrag import delete_user_data, read_eintrag, write_eintrag
+from database.user import GENERAL_TEST_USER
 from models.eintrag import EintragModel
 
-from routers.auth import GENERAL_TEST_USER
 
 TEST_USER = GENERAL_TEST_USER
 PATH = ["tmp", "tests", "database"]

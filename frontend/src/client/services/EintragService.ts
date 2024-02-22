@@ -24,6 +24,7 @@ export class EintragService {
                 'datum': datum,
             },
             errors: {
+                404: `Not found`,
                 422: `Validation Error`,
             },
         });
@@ -44,6 +45,7 @@ export class EintragService {
             body: requestBody,
             mediaType: 'application/json',
             errors: {
+                404: `Not found`,
                 422: `Validation Error`,
             },
         });

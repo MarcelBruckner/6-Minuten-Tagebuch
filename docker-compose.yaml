@@ -20,6 +20,10 @@ services:
     build: 
       context: backend
       dockerfile: Dockerfile
+    environment:
+      DATABASE_PATH: "data/db.sqlite"
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      APP_SECRET_KEY: '4352c9036368100cb0e7292aae9c0d10eee244b147a1a53148c2cfd19ecbd324'
     ports:
       - 4001:81
     volumes:

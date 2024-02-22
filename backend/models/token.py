@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel
 import datetime
-from typing import List
+from datetime import datetime
+
 
 class Token(BaseModel):
     access_token: str
@@ -9,3 +10,4 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
+    expiration: datetime | None = None

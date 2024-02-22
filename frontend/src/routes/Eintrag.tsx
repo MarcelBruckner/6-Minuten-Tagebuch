@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Spruch from "./Spruch";
+import Spruch from "../components/Spruch";
 import { EintragModel, EintragService } from "../client";
 import moment from "moment";
-import MyTextField from "./MyTextField";
-import MyMultipleLinesTextField from "./MyMultipleLinesTextField";
+import MyTextField from "../components/MyTextField";
+import MyMultipleLinesTextField from "../components/MyMultipleLinesTextField";
 
 
 export default function Eintrag() {
@@ -29,8 +29,14 @@ export default function Eintrag() {
 
     async function onMyMultipleLinesTextFieldUpdated(title: string, row: number, value: string) {
         if (title == DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN) {
+            if (!eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin) {
+                eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin = new Array(row)
+            }
             eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin[row] = value;
         } else if (title == DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG) {
+            if (!eintrag.dieSchoenstenMomentaAmHeutigenTag) {
+                eintrag.dieSchoenstenMomentaAmHeutigenTag = new Array(row)
+            }
             eintrag.dieSchoenstenMomentaAmHeutigenTag[row] = value;
         } else {
             throw new Error("Unknown MyTextField updated: " + title)

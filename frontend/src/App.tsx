@@ -3,24 +3,35 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Container } from '@mui/material';
+import { Container, ThemeProvider } from '@mui/material';
 import { OpenAPI } from './client';
-import Eintrag from './components/Eintrag';
-import Environment from './util/Environment';
+import Environment from './common/Environment';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './routes/Home';
+import About from './routes/About';
+import NavBar from './components/NavBar';
+import { LIGHT_THEME } from './common/Themes';
+import SignIn from './routes/SignIn';
 
 OpenAPI.BASE = Environment.getBackendUrl();
-console.log(OpenAPI.BASE)
 
 
 export default function App() {
   return (
-    <React.Fragment>
-      <CssBaseline />
-      <Container >
-        <Eintrag />
-      </Container>
-    </React.Fragment>
+    <BrowserRouter>
+      <ThemeProvider theme={LIGHT_THEME}>
+        <CssBaseline />
+        <NavBar />
+        <Container>
+          <Routes>
+            <Route path="/" element={<Home />} /> :
+            <Route path="/signin" element={<SignIn signin={true} />} />
+            <Route path="/signup" element={<SignIn signin={false} />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </Container>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }

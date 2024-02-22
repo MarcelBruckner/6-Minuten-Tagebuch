@@ -3,7 +3,7 @@ import { useState } from "react";
 import { VARIANT } from "./constants";
 
 
-export default function MyTextField(props: { title: string, helperText: string, value: string, onUpdated: (title: string, value: string) => void }) {
+export default function MyTextField(props: { title: string, helperText: string, value: string | undefined, onUpdated: (title: string, value: string) => void }) {
 
     function onChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const value = event!.target.value;

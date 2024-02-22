@@ -2,12 +2,15 @@ import { TextField } from "@mui/material";
 import { VARIANT } from "./constants";
 import { v4 } from "uuid";
 
-export default function MyMultipleLinesTextField(props: { title: string, helperText: string, values: Array<string>, onUpdated: (title: string, row: number, value: string) => void }) {
+export default function MyMultipleLinesTextField(props: { title: string, helperText: string, values: Array<string> | undefined, onUpdated: (title: string, row: number, value: string) => void }) {
 
     function onChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const row: number = parseInt(event!.target.id);
         const value = event!.target.value;
         props.onUpdated(props.title, row, value);
+    }
+    if (!props.values) {
+        props.values = new Array(3)
     }
 
     let values = props.values.map(item => {

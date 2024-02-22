@@ -18,9 +18,12 @@
     "@types/react-dom": "^18.2.19",
     "axios": "^1.6.7",
     "cors": "^2.8.5",
+    "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
+    "react-cookie": "^7.0.2",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -30,7 +33,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate-client": "openapi --input http://localhost:81/openapi.json --output .\\src\\client --client axios --useOptions --useUnionTypes"
+    "generate-client-windows": "openapi --input http://localhost:4001/openapi.json --output .\\src\\client --client axios --useOptions --useUnionTypes",
+    "generate-client-linux": "openapi --input http://localhost:4001/openapi.json --output ./src/client --client axios --useOptions --useUnionTypes"
   },
   "eslintConfig": {
     "extends": [
