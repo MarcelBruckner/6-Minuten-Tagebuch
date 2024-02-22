@@ -118,6 +118,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             } else {
                 setCookie('token', response.access_token, { secure: true, sameSite: 'none' })
             }
+            console.log(response.access_token);
             OpenAPI.TOKEN = response.access_token;
             return true;
         } catch (e) {
