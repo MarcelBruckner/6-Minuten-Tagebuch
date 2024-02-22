@@ -170,6 +170,9 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                     alignItems: 'center',
                 }}
             >
+                <Typography component="h1" variant="h3" sx={{ mb: 5 }}>
+                    5-Minuten Tagebuch
+                </Typography>
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
                 </Avatar>
