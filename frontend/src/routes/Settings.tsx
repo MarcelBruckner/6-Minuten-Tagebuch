@@ -9,7 +9,7 @@ import { OpenAPI } from '../client';
 
 
 export default function Settings(props: { onEditSettings: () => void }) {
-    const [cookies, setCookie, removeCookie] = useCookies(['sechs_minute_tagebuch_token', 'sechs_minuten_tagebuch_backend_url'])
+    const [cookies, setCookie, removeCookie] = useCookies(['sechs_minute_tagebuch_token', 'fuenf_minuten_tagebuch_backend_url'])
     const navigate = useNavigate();
     props.onEditSettings();
 
@@ -23,7 +23,7 @@ export default function Settings(props: { onEditSettings: () => void }) {
 
     function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const value = event!.target.value;
-        setCookie('sechs_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
+        setCookie('fuenf_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
     }
 
     function onLogout() {
@@ -40,7 +40,7 @@ export default function Settings(props: { onEditSettings: () => void }) {
             name="url"
             autoComplete="url"
             autoFocus
-            value={cookies.sechs_minuten_tagebuch_backend_url}
+            value={cookies.fuenf_minuten_tagebuch_backend_url}
             onChange={onChangeBackendUrl}
         />
 
