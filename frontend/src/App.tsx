@@ -8,7 +8,6 @@ import { Container, ThemeProvider } from '@mui/material';
 import { OpenAPI } from './client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
-import About from './routes/About';
 import { LIGHT_THEME } from './common/Themes';
 import SignIn from './routes/SignIn';
 import BottomNav from './components/BottomNav';
@@ -35,7 +34,6 @@ export default function App() {
             <Route path="/" element={<Home />} /> :
             <Route path="/signin" element={<SignIn signin={true} onSignIn={() => setBottomNavValue('home')} />} />
             <Route path="/signup" element={<SignIn signin={false} onSignIn={() => setBottomNavValue('home')} />} />
-            <Route path="/about" element={<About />} />
             <Route path="/settings" element={<Settings onEditSettings={() => setBottomNavValue('settings')} />} />
             <Route path="/:date" element={<EintragDetail onEditEintrag={setBottomNavValue} />} />
           </Routes>

@@ -12,8 +12,7 @@ import { VARIANT } from "../strings/Constants";
 export default function EintragDetail(props: { onEditEintrag: (value: string) => void }) {
     const [cookies] = useCookies(['fuenf_minuten_tagebuch_token'])
     const navigate = useNavigate();
-    let { dateParam } = useParams();
-    const date = useRef(dateParam);
+    let { date } = useParams();
 
     const [eintrag, setEintrag] = useState<Eintrag>({
         datum: formatDate(), dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: ["", "", ""], dasNehmeIchMirHeuteVor: "", heuteWirdGutWeil: "", einePositiveAffirmation: "", spruch: PAULO_CUELHO, dieSchoenstenMomenteAmHeutigenTag: ["", "", ""], morgenFreueIchMichAuf: ""
@@ -26,18 +25,18 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
         }
         OpenAPI.TOKEN = cookies.fuenf_minuten_tagebuch_token;
 
-        if (!date.current || date.current === 'today') {
-            date.current = formatDate();
-            props.onEditEintrag(date.current);
-            navigate(`/${date.current}`);
+        if (!date || date === 'today') {
+            date = formatDate();
+            props.onEditEintrag(date);
+            navigate(`/${date}`);
             return;
         }
-        props.onEditEintrag(date.current);
+        props.onEditEintrag(date);
         window.scrollTo(0, 0)
 
         async function getEintrag() {
             try {
-                const eintrag = await EintragService.eintragGetEintrag({ datum: date.current! });
+                const eintrag = await EintragService.eintragGetEintrag({ datum: date! });
                 setEintrag(eintrag);
             } catch (e) {
                 console.log(e);
@@ -112,7 +111,7 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
 
     return <Card sx={{ mb: 10, mt: 2 }}>
         <CardHeader
-            title={date.current}
+            title={date}
         />
         <CardContent>
             <EintragRowMulti values={eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} title={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} helperText={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} />
