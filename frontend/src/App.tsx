@@ -13,7 +13,7 @@ import { LIGHT_THEME } from './common/Themes';
 import SignIn from './routes/SignIn';
 import BottomNav from './components/BottomNav';
 import EintragDetail from './routes/Eintrag';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Settings from './routes/Settings';
 import { useCookies } from 'react-cookie';
 
@@ -22,6 +22,9 @@ export default function App() {
   const [bottomNavValue, setBottomNavValue] = useState('home');
   const [cookies] = useCookies(['fuenf_minuten_tagebuch_backend_url'])
   OpenAPI.BASE = cookies.fuenf_minuten_tagebuch_backend_url;
+  useEffect(() => {
+    document.title = '5-Minuten Tagebuch';
+  }, []);
 
   return (
     <BrowserRouter>

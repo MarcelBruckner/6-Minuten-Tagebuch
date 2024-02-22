@@ -3,6 +3,8 @@ FROM node:17-alpine as builder
 WORKDIR /app
 COPY package*.json .
 COPY yarn*.lock .
+
+# ENV NODE_ENV=production
 RUN npm install
 COPY . .
 

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample", 
+  "short_name": "5-Minuten Tagebuch",
+  "name": "5-Minuten Tagebuch",
   "icons": [
     {
       "src": "favicon.ico",
