@@ -2,20 +2,15 @@ import pathlib
 import sqlite3
 from typing import List
 
-from common.environment import get_database_path
+from common.environment import get_data_path
 from models.user import UserInDB
 
 
-GENERAL_TEST_USER = UserInDB(username="Test User",
-                             full_name="Test User",
-                             email="test@user.com",
-                             hashed_password="super-secret-hash",
-                             disabled=False)
 TABLE_NAME = "user"
 
 
-def _get_path() -> pathlib.Path:
-    return pathlib.Path(get_database_path())
+def get_database_path() -> pathlib.Path:
+    return pathlib.Path(get_data_path(), "users.sqlite")
 
 
 def _exists_table():
@@ -37,7 +32,7 @@ def _create_table():
 
 
 def _open_database_file():
-    path = _get_path()
+    path = get_database_path()
     path.parent.mkdir(exist_ok=True, parents=True)
     connection = sqlite3.connect(path)
     return connection
@@ -48,12 +43,12 @@ def get_database():
     if not _exists_table():
         if not _create_table():
             raise sqlite3.DatabaseError(
-                f"Couldn't create table in database file: {_get_path()}")
+                f"Couldn't create table in database file: {get_database_path()}")
     return connection
 
 
 def exists_database_file() -> bool:
-    return _get_path().exists()
+    return get_database_path().exists()
 
 
 def read_user(username: str) -> UserInDB | None:

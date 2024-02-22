@@ -27,8 +27,3 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.get("/test", tags=["test"])
-def test():
-    return True

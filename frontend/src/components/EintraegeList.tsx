@@ -1,12 +1,13 @@
-import { useCookies } from "react-cookie"
-import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
 import { Eintrag, EintragService, OpenAPI } from "../client";
+import EintraegeListCard from "./EintraegeListCard";
+import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import { formatDate } from "../common/Helpers";
-import EintraegeList from "../components/EintraegeList";
+import { Box } from "@mui/material";
 
-export default function Home() {
 
+export default function EintraegeList() {
     const [eintraege, setEintraege] = useState<Array<Eintrag>>([])
     const [cookies] = useCookies(['token'])
     const navigate = useNavigate();
@@ -29,7 +30,11 @@ export default function Home() {
         getEintraege();
     }, [cookies])
 
-    return <>
-        <EintraegeList></EintraegeList>
-    </>
+    return <Box sx={{ mb: 10 }}>
+        {
+            eintraege.map((eintrag) =>
+                <EintraegeListCard eintrag={eintrag} />
+            )
+        }
+    </Box>
 }

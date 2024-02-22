@@ -8,15 +8,13 @@ export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { Body_auth_login_for_access_token } from './models/Body_auth_login_for_access_token';
-export type { EintragModel } from './models/EintragModel';
+export type { Eintrag } from './models/Eintrag';
 export type { HTTPValidationError } from './models/HTTPValidationError';
 export type { Token } from './models/Token';
 export type { User } from './models/User';
 export type { UserIn } from './models/UserIn';
-export type { UserServiceResponse } from './models/UserServiceResponse';
 export type { ValidationError } from './models/ValidationError';
 
 export { AuthService } from './services/AuthService';
 export { EintragService } from './services/EintragService';
-export { TestService } from './services/TestService';
 export { UserService } from './services/UserService';

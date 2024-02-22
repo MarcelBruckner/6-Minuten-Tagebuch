@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type EintragModel = {
+export type Eintrag = {
     datum: string;
     dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin?: Array<string>;
     dasNehmeIchMirHeuteVor?: string;
     heuteWirdGutWeil?: string;
     spruch?: string;
     einePositiveAffirmation?: string;
-    dieSchoenstenMomentaAmHeutigenTag?: Array<string>;
+    dieSchoenstenMomenteAmHeutigenTag?: Array<string>;
     morgenFreueIchMichAuf?: string;
 };
 

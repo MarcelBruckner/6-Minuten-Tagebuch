@@ -1,35 +1,105 @@
 import datetime
-from database.eintrag import delete_user_data, read_eintrag, write_eintrag
-from database.user import GENERAL_TEST_USER
-from models.eintrag import EintragModel
+import shutil
+
+import pytest
+from database.eintrag import delete_user_data, read_eintraege, read_eintrag, read_last_eintraege, write_eintrag
+from models.eintrag import Eintrag
+from utils import TEST_DATUM, TEST_EINTRAEGE, TEST_USER, set_data_path
 
 
-TEST_USER = GENERAL_TEST_USER
-PATH = ["tmp", "tests", "database"]
+DATA_PATH = set_data_path(__file__)
+
+
+@pytest.fixture(autouse=True)
+def run_around_tests():
+    shutil.rmtree(DATA_PATH, ignore_errors=True)
+    for eintrag in TEST_EINTRAEGE:
+        write_eintrag(TEST_USER, eintrag)
+
+    yield
+
+    shutil.rmtree(DATA_PATH, ignore_errors=True)
 
 
 def test_read_eintrag():
-    datum = datetime.date(1970, 1, 1)
-    actual_eintrag = read_eintrag(TEST_USER, datum, *PATH)
-    assert isinstance(actual_eintrag, EintragModel)
+    actual_eintrag = read_eintrag(TEST_USER, TEST_DATUM)
+    assert isinstance(actual_eintrag, Eintrag)
+
+
+def test_read_eintrag_not_present():
+    actual_eintrag = read_eintrag(TEST_USER, datetime.date(2000, 1, 1))
+    assert not actual_eintrag
 
 
 def test_read_write_eintrag():
     datum = datetime.date(1970, 1, 1)
-    expected_eintrag = EintragModel(datum=datum,
-                                    dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin=[
-                                        "a", "b", "c"],
-                                    dasNehmeIchMirHeuteVor="dasNehmeIchMirHeuteVor",
-                                    heuteWirdGutWeil="heuteWirdGutWeil",
-                                    morgenFreueIchMichAuf="morgenFreueIchMichAuf",
-                                    dieSchoenstenMomentaAmHeutigenTag=[
-                                        "x", "y", "z"],
-                                    einePositiveAffirmation="einePositiveAffirmation",
-                                    spruch="spruch")
+    expected_eintrag = Eintrag(datum=datum,
+                               dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin=[
+                                   "a", "b", "c"],
+                               dasNehmeIchMirHeuteVor="dasNehmeIchMirHeuteVor",
+                               heuteWirdGutWeil="heuteWirdGutWeil",
+                               morgenFreueIchMichAuf="morgenFreueIchMichAuf",
+                               dieSchoenstenMomenteAmHeutigenTag=[
+                                   "x", "y", "z"],
+                               einePositiveAffirmation="einePositiveAffirmation",
+                               spruch="spruch")
 
-    write_eintrag(TEST_USER, expected_eintrag, *PATH)
-    actual_eintrag = read_eintrag(TEST_USER, datum, *PATH)
+    write_eintrag(TEST_USER, expected_eintrag)
+    actual_eintrag = read_eintrag(TEST_USER, datum)
 
     assert expected_eintrag == actual_eintrag
 
-    assert delete_user_data(TEST_USER, *PATH)
+    assert delete_user_data(TEST_USER)
+
+
+def test_read_eintraege():
+    eintraege = read_eintraege(user=TEST_USER)
+    assert eintraege == TEST_EINTRAEGE
+
+    eintraege = read_eintraege(
+        user=TEST_USER, start_date=TEST_DATUM + datetime.timedelta(days=5))
+    assert eintraege == TEST_EINTRAEGE[5:]
+
+    eintraege = read_eintraege(
+        user=TEST_USER, end_date=TEST_DATUM + datetime.timedelta(days=5))
+    assert eintraege == TEST_EINTRAEGE[:6]
+
+    eintraege = read_eintraege(
+        user=TEST_USER,
+        start_date=TEST_DATUM + datetime.timedelta(days=2),
+        end_date=TEST_DATUM + datetime.timedelta(days=7))
+    assert eintraege == TEST_EINTRAEGE[2:8]
+
+
+def test_read_eintraege_empty():
+    eintraege = read_eintraege(
+        user=TEST_USER, start_date=TEST_DATUM + datetime.timedelta(days=100))
+    assert len(eintraege) == 0
+
+    eintraege = read_eintraege(
+        user=TEST_USER, start_date=TEST_DATUM + datetime.timedelta(days=10), end_date=TEST_DATUM + datetime.timedelta(days=1))
+    assert len(eintraege) == 0
+
+
+def test_read_last_eintraege():
+    eintraege = read_last_eintraege(user=TEST_USER, number=1000)
+    assert eintraege == TEST_EINTRAEGE
+
+    eintraege = read_last_eintraege(user=TEST_USER, number=5)
+    assert eintraege == TEST_EINTRAEGE[-5:]
+
+    eintraege = read_last_eintraege(
+        user=TEST_USER, number=5, end_date=TEST_DATUM + datetime.timedelta(days=4))
+    assert eintraege == TEST_EINTRAEGE[:5]
+
+
+def test_read_last_eintraege_empty():
+    eintraege = read_last_eintraege(user=TEST_USER, number=-3)
+    assert len(eintraege) == 0
+
+    eintraege = read_last_eintraege(user=TEST_USER, number=0)
+    assert len(eintraege) == 0
+
+    eintraege = read_last_eintraege(
+        user=TEST_USER, number=5, end_date=TEST_DATUM - datetime.timedelta(days=1))
+    assert len(eintraege) == 0

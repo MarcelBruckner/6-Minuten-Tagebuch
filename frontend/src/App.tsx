@@ -10,9 +10,10 @@ import Environment from './common/Environment';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import About from './routes/About';
-import NavBar from './components/NavBar';
 import { LIGHT_THEME } from './common/Themes';
 import SignIn from './routes/SignIn';
+import BottomNav from './components/BottomNav';
+import EintragDetail from './routes/Eintrag';
 
 OpenAPI.BASE = Environment.getBackendUrl();
 
@@ -22,15 +23,16 @@ export default function App() {
     <BrowserRouter>
       <ThemeProvider theme={LIGHT_THEME}>
         <CssBaseline />
-        <NavBar />
-        <Container>
+        <Container component="main" maxWidth="md">
           <Routes>
             <Route path="/" element={<Home />} /> :
             <Route path="/signin" element={<SignIn signin={true} />} />
             <Route path="/signup" element={<SignIn signin={false} />} />
             <Route path="/about" element={<About />} />
+            <Route path="/today" element={<EintragDetail date={new Date()} />} />
           </Routes>
         </Container>
+        <BottomNav />
       </ThemeProvider>
     </BrowserRouter>
   );

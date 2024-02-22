@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { User } from '../models/User';
 import type { UserIn } from '../models/UserIn';
-import type { UserServiceResponse } from '../models/UserServiceResponse';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
@@ -25,14 +24,14 @@ export class UserService {
     }
     /**
      * Create User
-     * @returns UserServiceResponse Successful Response
+     * @returns any Successful Response
      * @throws ApiError
      */
     public static userCreateUser({
         requestBody,
     }: {
         requestBody: UserIn,
-    }): CancelablePromise<UserServiceResponse> {
+    }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/user/create',
@@ -46,10 +45,10 @@ export class UserService {
     }
     /**
      * Delete User
-     * @returns UserServiceResponse Successful Response
+     * @returns any Successful Response
      * @throws ApiError
      */
-    public static userDeleteUser(): CancelablePromise<UserServiceResponse> {
+    public static userDeleteUser(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/user/delete',

@@ -10,9 +10,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Copyright from '../components/Copyright';
-import { ApiError, AuthService, Body_auth_login_for_access_token, OpenAPI, UserIn, UserService, UserServiceResponse } from '../client';
+import { ApiError, AuthService, Body_auth_login_for_access_token, OpenAPI, UserIn, UserService } from '../client';
 import { Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie'
@@ -29,7 +28,7 @@ export default function SignIn(props: { signin: boolean }) {
     const [userIn, setUserIn] = React.useState<UserIn>({ email: "", password: "", username: "" })
     const [formErrors, setFormErrors] = React.useState<Array<string>>([])
     const [validationErrors, setValidationErrors] = React.useState<Array<string>>([])
-    const [_, setCookie] = useCookies(['token'])
+    const [, setCookie] = useCookies(['token'])
 
     const passwordError = React.useMemo<boolean>(() => formErrors.includes(PASSWORD_ERROR), [formErrors])
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
@@ -62,7 +61,7 @@ export default function SignIn(props: { signin: boolean }) {
         setUserIn(userIn);
 
         try {
-            await UserService.userCreateUser({ requestBody: userIn }) as UserServiceResponse;
+            await UserService.userCreateUser({ requestBody: userIn });
             navigate("/signin");
         } catch (e) {
             const validationErrors: Array<string> = [];
@@ -114,28 +113,30 @@ export default function SignIn(props: { signin: boolean }) {
             } else {
                 setCookie('token', response.access_token, { secure: true, sameSite: 'none' })
             }
-            OpenAPI.TOKEN = response.access_token
+            OpenAPI.TOKEN = response.access_token;
+            return true;
         } catch (e) {
             setValidationErrors([(e as ApiError).body.detail])
+            return false;
         }
-        return true;
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+        let result = false;
         if (props.signin) {
-            const result = await onSignIn(data);
-            if (result) {
-                navigate("/");
-            }
+            result = await onSignIn(data);
         } else {
-            await onSignUp(data);
+            result = await onSignUp(data);
+        }
+        if (result) {
+            navigate("/");
         }
     };
 
     return (
-        <Container component="main" maxWidth="xs">
+        <>
             <CssBaseline />
             <Box
                 sx={{
@@ -240,6 +241,6 @@ export default function SignIn(props: { signin: boolean }) {
                 </Box>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
-        </Container>
+        </>
     );
 }

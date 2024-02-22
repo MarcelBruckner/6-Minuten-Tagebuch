@@ -1,10 +1,9 @@
 import os
 
 
-def get_database_path():
-    database_path = os.environ.get("DATABASE_PATH", "data/db.sqlite")
-    print("Database path: ", database_path)
-    return database_path
+def get_data_path():
+    data_path = os.environ.get("DATA_PATH", "data")
+    return data_path
 
 
 def get_access_token_expires_minutes():

@@ -3,7 +3,7 @@ import datetime
 from typing import List
 
 
-class EintragModel(BaseModel):
+class Eintrag(BaseModel):
     datum: datetime.date = Field(examples=[datetime.date.today()])
 
     dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: List[str] = [
@@ -14,5 +14,5 @@ class EintragModel(BaseModel):
     spruch: str = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho'
 
     einePositiveAffirmation: str = ""
-    dieSchoenstenMomentaAmHeutigenTag: List[str] = ["", "", ""]
+    dieSchoenstenMomenteAmHeutigenTag: List[str] = ["", "", ""]
     morgenFreueIchMichAuf: str = ""

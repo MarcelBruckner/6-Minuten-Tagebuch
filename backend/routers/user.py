@@ -1,7 +1,5 @@
 from enum import Enum
-from fastapi import APIRouter, Response, status
-from fastapi.responses import RedirectResponse
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, Response, status
 import database.user as user_db
 from models.user import User, UserIn, UserInDB
 from typing import Annotated
@@ -19,22 +17,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-
-class UserServiceResponse(BaseModel):
-    status_code: int
-    message: str
-
-
-class UserCreationResponse(Enum):
-    CONFLICT = UserServiceResponse(
-        status_code=status.HTTP_409_CONFLICT, message="User already exists")
-    CREATED = UserServiceResponse(
-        status_code=status.HTTP_201_CREATED, message="Created")
-
-
-class UserDeletionResponse(Enum):
-    DELETED = UserServiceResponse(
-        status_code=status.HTTP_202_ACCEPTED, message="Deleted")
+USER_EXISTS_ALREADY = "User exists already!"
 
 
 @router.get("/", response_model=User)
@@ -42,11 +25,11 @@ async def get_current_active_user(current_user: Annotated[User, Depends(auth.get
     return current_user
 
 
-@router.post("/create", response_model=UserServiceResponse)
-async def create_user(new_user: UserIn, response: Response):
+@router.post("/create", status_code=201)
+async def create_user(new_user: UserIn):
     if user_db.exists_user(new_user.username):
-        response.status_code = UserCreationResponse.CONFLICT.value.status_code
-        return UserCreationResponse.CONFLICT.value
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,
+                            detail=USER_EXISTS_ALREADY)
 
     db_user = UserInDB(username=new_user.username,
                        email=new_user.email,
@@ -56,11 +39,9 @@ async def create_user(new_user: UserIn, response: Response):
                        disabled=False)
 
     user_db.write_user(db_user)
-    response.status_code = UserCreationResponse.CREATED.value.status_code
-    return UserCreationResponse.CREATED.value
 
 
-@router.delete("/delete", status_code=UserDeletionResponse.DELETED.value.status_code, response_model=UserServiceResponse)
+@router.delete("/delete", status_code=status.HTTP_202_ACCEPTED)
 async def delete_user(current_user: Annotated[User, Depends(auth.get_current_active_user)]):
     user_db.delete_user(username=current_user.username)
-    return UserDeletionResponse.DELETED.value
+    return current_user
