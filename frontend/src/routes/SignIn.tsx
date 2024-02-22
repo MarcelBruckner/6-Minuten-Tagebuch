@@ -29,7 +29,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
     const [userIn, setUserIn] = React.useState<UserIn>({ email: "", password: "", username: "" })
     const [formErrors, setFormErrors] = React.useState<Array<string>>([])
     const [validationErrors, setValidationErrors] = React.useState<Array<string>>([])
-    const [cookies, setCookie] = useCookies(['sechs_minuten_tagebuch_token', 'backend_url'])
+    const [cookies, setCookie] = useCookies(['sechs_minuten_tagebuch_token', 'sechs_minuten_tagebuch_backend_url'])
 
     const passwordError = React.useMemo<boolean>(() => formErrors.includes(PASSWORD_ERROR), [formErrors])
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
@@ -37,7 +37,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
 
     function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const value = event!.target.value;
-        setCookie('backend_url', value, { expires: new Date(2090, 1, 1) });
+        setCookie('sechs_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
     }
 
     async function onSignUp(data: FormData): Promise<boolean> {
@@ -225,7 +225,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                         name="url"
                         autoComplete="url"
                         autoFocus
-                        value={cookies.backend_url}
+                        value={cookies.sechs_minuten_tagebuch_backend_url}
                         onChange={onChangeBackendUrl}
                     />
                     {props.signin &&

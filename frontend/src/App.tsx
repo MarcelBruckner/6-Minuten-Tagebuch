@@ -20,8 +20,8 @@ import { useCookies } from 'react-cookie';
 
 export default function App() {
   const [bottomNavValue, setBottomNavValue] = useState('home');
-  const [cookies] = useCookies(['backend_url'])
-  OpenAPI.BASE = cookies.backend_url;
+  const [cookies] = useCookies(['sechs_minuten_tagebuch_backend_url'])
+  OpenAPI.BASE = cookies.sechs_minuten_tagebuch_backend_url;
 
   return (
     <BrowserRouter>
