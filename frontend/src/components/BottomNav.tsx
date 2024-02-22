@@ -8,7 +8,7 @@ import { isDate } from '../common/Helpers';
 import { Settings } from '@mui/icons-material';
 
 export default function BottomNav(props: { value: string, setValue: (value: string) => void }) {
-    const [cookies] = useCookies(['fuenf_minute_tagebuch_token'])
+    const [cookies] = useCookies(['fuenf_minuten_tagebuch_token'])
     const navigate = useNavigate();
 
     const handleChange = (event: React.SyntheticEvent | undefined, newValue: string) => {
@@ -24,7 +24,7 @@ export default function BottomNav(props: { value: string, setValue: (value: stri
 
     const isValueDate = isDate(props.value);
 
-    if (cookies.fuenf_minute_tagebuch_token) {
+    if (cookies.fuenf_minuten_tagebuch_token) {
         return <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation value={props.value} onChange={handleChange}>
                 <BottomNavigationAction label="Home" value="home" icon={<Home />} />

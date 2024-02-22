@@ -37,8 +37,8 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
 
     React.useEffect(() => {
         if (cookies.fuenf_minuten_tagebuch_token) {
-            navigate('/');
             props.onSignIn();
+            navigate('/');
         }
     }, [cookies, navigate])
 
