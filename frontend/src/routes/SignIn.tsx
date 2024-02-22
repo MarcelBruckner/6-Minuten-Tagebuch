@@ -114,9 +114,11 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             if (remember) {
                 const token = jwtDecode(response.access_token) as { sub: string, exp: number };
                 const expires = new Date(token.exp * 1000);
-                setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
+                setCookie('fuenf_minuten_tagebuch_token', response.access_token, { expires: expires })
+                // setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
             } else {
-                setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none' })
+                setCookie('fuenf_minuten_tagebuch_token', response.access_token, {})
+                // setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none' })
             }
             console.log(response.access_token);
             OpenAPI.TOKEN = response.access_token;
