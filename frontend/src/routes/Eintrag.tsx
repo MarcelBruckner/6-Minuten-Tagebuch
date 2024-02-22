@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import { Eintrag, EintragService, OpenAPI } from "../client";
 import moment from "moment";
-import MyTextField from "../components/MyTextField";
 import MyMultipleLinesTextField from "../components/MyMultipleLinesTextField";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../common/Helpers";
-import { DAS_NEHME_ICH_MIR_HEUTE_VOR, DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG, DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN, EINE_POSITIVE_AFFIRMATION, HEUTE_WIRD_GUT_WEIL, MORGEN_FREUE_ICH_MICH_AUF } from "../strings/Eintrag";
-import { Container } from "@mui/material";
+import { DAS_NEHME_ICH_MIR_HEUTE_VOR, DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG, DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN, EINE_POSITIVE_AFFIRMATION, HEUTE_WIRD_GUT_WEIL, MORGEN_FREUE_ICH_MICH_AUF, PAULO_CUELHO } from "../strings/Eintrag";
+import { Card, CardContent, CardHeader, Container, TextField } from "@mui/material";
+import { VARIANT } from "../strings/constants";
 
 
-export default function EintragDetail(props: { date: Date }) {
+export default function EintragDetail(props: { onEditEintrag: (value: string) => void }) {
     const [cookies] = useCookies(['token'])
     const navigate = useNavigate();
+    let { date } = useParams();
 
     const [eintrag, setEintrag] = useState<Eintrag>({
-        datum: formatDate(), dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: ["", "", ""], dasNehmeIchMirHeuteVor: "", heuteWirdGutWeil: "", einePositiveAffirmation: "", spruch: "", dieSchoenstenMomenteAmHeutigenTag: ["", "", ""], morgenFreueIchMichAuf: ""
+        datum: formatDate(), dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: ["", "", ""], dasNehmeIchMirHeuteVor: "", heuteWirdGutWeil: "", einePositiveAffirmation: "", spruch: PAULO_CUELHO, dieSchoenstenMomenteAmHeutigenTag: ["", "", ""], morgenFreueIchMichAuf: ""
     });
 
     useEffect(() => {
@@ -25,17 +26,25 @@ export default function EintragDetail(props: { date: Date }) {
         }
         OpenAPI.TOKEN = cookies.token;
 
+        if (!date || date === 'today') {
+            date = formatDate();
+            props.onEditEintrag(date!);
+            navigate(`/${date}`);
+            return;
+        }
+        props.onEditEintrag(date!);
+        window.scrollTo(0, 0)
+
         async function getEintrag() {
-            let formattedDate = (moment(props.date)).format('YYYY-MM-DD')
             try {
-                const eintrag = await EintragService.eintragGetEintrag({ datum: formattedDate });
+                const eintrag = await EintragService.eintragGetEintrag({ datum: date! });
                 setEintrag(eintrag);
             } catch (e) {
                 console.log(e);
             }
         };
         getEintrag();
-    }, [cookies, navigate, props]);
+    }, []);
 
     async function onMyMultipleLinesTextFieldUpdated(title: string, row: number, value: string) {
         if (title === DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN) {
@@ -73,18 +82,51 @@ export default function EintragDetail(props: { date: Date }) {
         await EintragService.eintragPutEintrag({ requestBody: eintrag });
     }
 
+    function EintragRowSingle(props: { title: string, value: string | undefined, helperText: string }) {
+        function MyTextField(props: { title: string, helperText: string, value: string | undefined, onUpdated: (title: string, value: string) => void }) {
+            function onChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
+                const value = event!.target.value;
+                props.onUpdated(props.title, value);
+            }
 
-    return <>
-        <MyMultipleLinesTextField values={eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} onUpdated={onMyMultipleLinesTextFieldUpdated} title={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} helperText={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} />
-        <MyTextField value={eintrag.dasNehmeIchMirHeuteVor} onUpdated={onMyTextFieldUpdated} title={DAS_NEHME_ICH_MIR_HEUTE_VOR} helperText={DAS_NEHME_ICH_MIR_HEUTE_VOR} />
-        <MyTextField value={eintrag.heuteWirdGutWeil} onUpdated={onMyTextFieldUpdated} title={HEUTE_WIRD_GUT_WEIL} helperText={HEUTE_WIRD_GUT_WEIL} />
+            return <TextField multiline className="textfield" defaultValue={props.value} variant={VARIANT} helperText={props.helperText} onChange={onChange} />
+        }
 
-        <Container className="spruch" maxWidth="sm">
-            <h1><i>{eintrag.spruch}</i></h1>
-        </Container>
+        return <Card sx={{ mb: 2 }}>
+            <CardHeader title={props.title} sx={{ textTransform: 'uppercase' }} />
+            <CardContent>
+                <MyTextField value={props.value} onUpdated={onMyTextFieldUpdated} title={props.title} helperText={props.helperText} />
+            </CardContent>
+        </Card>
+    }
 
-        <MyTextField value={eintrag.einePositiveAffirmation} onUpdated={onMyTextFieldUpdated} title={EINE_POSITIVE_AFFIRMATION} helperText={EINE_POSITIVE_AFFIRMATION} />
-        <MyMultipleLinesTextField values={eintrag.dieSchoenstenMomenteAmHeutigenTag} onUpdated={onMyMultipleLinesTextFieldUpdated} title={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} helperText={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} />
-        <MyTextField value={eintrag.morgenFreueIchMichAuf} onUpdated={onMyTextFieldUpdated} title={MORGEN_FREUE_ICH_MICH_AUF} helperText={MORGEN_FREUE_ICH_MICH_AUF} />
-    </>
+    function EintragRowMulti(props: { title: string, values: Array<string> | undefined, helperText: string }) {
+        return <Card sx={{ mb: 2 }}>
+            <CardHeader title={props.title} sx={{ textTransform: 'uppercase' }} />
+            <CardContent>
+                <MyMultipleLinesTextField values={props.values} onUpdated={onMyMultipleLinesTextFieldUpdated} title={props.title} helperText={props.helperText} />
+            </CardContent>
+        </Card>
+    }
+
+
+    return <Card sx={{ mb: 10, mt: 2 }}>
+        <CardHeader
+            title={date}
+        />
+        <CardContent>
+            <EintragRowMulti values={eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} title={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} helperText={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} />
+            <EintragRowSingle title={DAS_NEHME_ICH_MIR_HEUTE_VOR} value={eintrag.dasNehmeIchMirHeuteVor} helperText={DAS_NEHME_ICH_MIR_HEUTE_VOR} />
+            <EintragRowSingle title={HEUTE_WIRD_GUT_WEIL} value={eintrag.heuteWirdGutWeil} helperText={HEUTE_WIRD_GUT_WEIL} />
+
+            <Container className="spruch" maxWidth="sm">
+                <h1><i>{eintrag.spruch}</i></h1>
+            </Container>
+
+            <EintragRowSingle title={EINE_POSITIVE_AFFIRMATION} value={eintrag.einePositiveAffirmation} helperText={EINE_POSITIVE_AFFIRMATION} />
+            <EintragRowMulti values={eintrag.dieSchoenstenMomenteAmHeutigenTag} title={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} helperText={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} />
+            <EintragRowSingle title={MORGEN_FREUE_ICH_MICH_AUF} value={eintrag.morgenFreueIchMichAuf} helperText={MORGEN_FREUE_ICH_MICH_AUF} />
+
+        </CardContent>
+    </Card>
 }

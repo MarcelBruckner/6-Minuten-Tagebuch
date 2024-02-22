@@ -1,5 +1,5 @@
 import { TextField } from "@mui/material";
-import { VARIANT } from "./constants";
+import { VARIANT } from "../strings/constants";
 import { v4 } from "uuid";
 
 export default function MyMultipleLinesTextField(props: { title: string, helperText: string, values: Array<string> | undefined, onUpdated: (title: string, row: number, value: string) => void }) {
@@ -18,14 +18,13 @@ export default function MyMultipleLinesTextField(props: { title: string, helperT
     });
 
     return <>
-        <h2>{props.title}</h2>
         {values.map((x, i) =>
             <div>
                 <TextField
                     id={i + ""}
                     className="textfield"
                     label={(i + 1) + "."}
-                    key={x.uid}
+                    key={x.value}
                     defaultValue={x.value}
                     variant={VARIANT}
                     helperText={props.helperText}

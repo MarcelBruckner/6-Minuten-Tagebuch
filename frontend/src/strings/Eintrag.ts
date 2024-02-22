@@ -5,3 +5,5 @@ export const HEUTE_WIRD_GUT_WEIL = "Heute wird gut weil ...";
 export const EINE_POSITIVE_AFFIRMATION = "Eine positive Affirmation";
 export const DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG = "Die schönsten Momente am heutigen Tag";
 export const MORGEN_FREUE_ICH_MICH_AUF = "Morgen freue ich mich auf";
+
+export const PAULO_CUELHO = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho';

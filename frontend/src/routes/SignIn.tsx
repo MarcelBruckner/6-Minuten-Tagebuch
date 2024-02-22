@@ -21,7 +21,7 @@ const USERNAME_ERROR = "Username not set!";
 const EMAIL_ERROR = "EMail not set!";
 const PASSWORD_ERROR = "Pasword not set!";
 
-export default function SignIn(props: { signin: boolean }) {
+export default function SignIn(props: { signin: boolean, onSignIn: () => void }) {
     const navigate = useNavigate();
 
     const [authBody, setAuthBody] = React.useState<Body_auth_login_for_access_token>({ username: "", password: "" })
@@ -62,7 +62,6 @@ export default function SignIn(props: { signin: boolean }) {
 
         try {
             await UserService.userCreateUser({ requestBody: userIn });
-            navigate("/signin");
         } catch (e) {
             const validationErrors: Array<string> = [];
             const api_error = e as ApiError;
@@ -124,14 +123,13 @@ export default function SignIn(props: { signin: boolean }) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        let result = false;
         if (props.signin) {
-            result = await onSignIn(data);
-        } else {
-            result = await onSignUp(data);
-        }
-        if (result) {
+            await onSignIn(data);
+            props.onSignIn();
             navigate("/");
+        } else {
+            await onSignUp(data);
+            navigate("/signin");
         }
     };
 

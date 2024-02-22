@@ -3,8 +3,9 @@ import EintraegeListCard from "./EintraegeListCard";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { formatDate } from "../common/Helpers";
+import { formatDate, parseDate } from "../common/Helpers";
 import { Box } from "@mui/material";
+import { reverse } from "dns";
 
 
 export default function EintraegeList() {
@@ -21,16 +22,16 @@ export default function EintraegeList() {
 
         async function getEintraege() {
             try {
-                const response = await EintragService.eintragGetLastEintraege({ number: 10, endDate: formatDate() })
-                setEintraege(response);
+                const response = await EintragService.eintragGetEintraegeInDateRange({})
+                setEintraege(response.sort((a, b) => a.datum.localeCompare(b.datum)).reverse());
             } catch (e) {
                 console.log(e);
             }
         }
         getEintraege();
-    }, [cookies])
+    }, [])
 
-    return <Box sx={{ mb: 10 }}>
+    return <Box sx={{ mb: 10, mt: 2 }}>
         {
             eintraege.map((eintrag) =>
                 <EintraegeListCard eintrag={eintrag} />
