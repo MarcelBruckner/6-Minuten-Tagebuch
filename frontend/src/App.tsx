@@ -6,7 +6,6 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, ThemeProvider } from '@mui/material';
 import { OpenAPI } from './client';
-import Environment from './common/Environment';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import About from './routes/About';
@@ -15,12 +14,14 @@ import SignIn from './routes/SignIn';
 import BottomNav from './components/BottomNav';
 import EintragDetail from './routes/Eintrag';
 import { useState } from 'react';
-
-OpenAPI.BASE = Environment.getBackendUrl();
+import Settings from './routes/Settings';
+import { useCookies } from 'react-cookie';
 
 
 export default function App() {
   const [bottomNavValue, setBottomNavValue] = useState('home');
+  const [cookies] = useCookies(['backend_url'])
+  OpenAPI.BASE = cookies.backend_url;
 
   return (
     <BrowserRouter>
@@ -32,6 +33,7 @@ export default function App() {
             <Route path="/signin" element={<SignIn signin={true} onSignIn={() => setBottomNavValue('home')} />} />
             <Route path="/signup" element={<SignIn signin={false} onSignIn={() => setBottomNavValue('home')} />} />
             <Route path="/about" element={<About />} />
+            <Route path="/settings" element={<Settings onEditSettings={() => setBottomNavValue('settings')} />} />
             <Route path="/:date" element={<EintragDetail onEditEintrag={setBottomNavValue} />} />
           </Routes>
         </Container>

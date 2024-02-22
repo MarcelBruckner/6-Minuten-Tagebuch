@@ -7,8 +7,6 @@ services:
     build:
       context: frontend
       dockerfile: Dockerfile
-      args:
-        BACKEND_URL: http://localhost:4001
     ports:
       - 4000:80
     depends_on:

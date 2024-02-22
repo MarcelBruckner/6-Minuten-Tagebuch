@@ -16,6 +16,7 @@ import { Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie'
 import { jwtDecode } from "jwt-decode";
+import { AxiosError } from 'axios';
 
 const USERNAME_ERROR = "Username not set!";
 const EMAIL_ERROR = "EMail not set!";
@@ -28,11 +29,16 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
     const [userIn, setUserIn] = React.useState<UserIn>({ email: "", password: "", username: "" })
     const [formErrors, setFormErrors] = React.useState<Array<string>>([])
     const [validationErrors, setValidationErrors] = React.useState<Array<string>>([])
-    const [, setCookie] = useCookies(['token'])
+    const [cookies, setCookie] = useCookies(['token', 'backend_url'])
 
     const passwordError = React.useMemo<boolean>(() => formErrors.includes(PASSWORD_ERROR), [formErrors])
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
     const usernameError = React.useMemo<boolean>(() => formErrors.includes(USERNAME_ERROR), [formErrors])
+
+    function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
+        const value = event!.target.value;
+        setCookie('backend_url', value, { expires: new Date(2090, 1, 1) });
+    }
 
     async function onSignUp(data: FormData): Promise<boolean> {
         const password = data.get('password')?.toString();
@@ -115,7 +121,11 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             OpenAPI.TOKEN = response.access_token;
             return true;
         } catch (e) {
-            setValidationErrors([(e as ApiError).body.detail])
+            if (e instanceof AxiosError) {
+                setValidationErrors([e.message]);
+            } else if (e instanceof ApiError) {
+                setValidationErrors([e.body.detail])
+            }
             return false;
         }
     }
@@ -124,11 +134,17 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         if (props.signin) {
-            await onSignIn(data);
+            const result = await onSignIn(data);
+            if (!result) {
+                return;
+            }
             props.onSignIn();
             navigate("/");
         } else {
-            await onSignUp(data);
+            const result = await onSignUp(data);
+            if (!result) {
+                return;
+            }
             navigate("/signin");
         }
     };
@@ -198,6 +214,19 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                         autoComplete="current-password"
                         error={passwordError}
                     />
+
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="url"
+                        label="Backend URL"
+                        name="url"
+                        autoComplete="url"
+                        autoFocus
+                        value={cookies.backend_url}
+                        onChange={onChangeBackendUrl}
+                    />
                     {props.signin &&
                         < FormControlLabel
                             control={<Checkbox value={true} color="primary" />}
@@ -207,11 +236,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                         />
                     }
                     {
-                        validationErrors.map((x) => {
-                            return <Alert severity="error">
-                                {x}
-                            </Alert>
-                        })
+                        validationErrors.map((x) => <Alert severity="error">{x}</Alert>)
                     }
                     <Button
                         type="submit"

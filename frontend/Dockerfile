@@ -6,9 +6,6 @@ COPY yarn*.lock .
 RUN npm install
 COPY . .
 
-ARG BACKEND_URL
-ENV REACT_APP_BACKEND_URL=$BACKEND_URL
-
 RUN npm run build
 
 #################################################

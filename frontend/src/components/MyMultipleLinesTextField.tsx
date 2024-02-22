@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
-import { VARIANT } from "../strings/constants";
 import { v4 } from "uuid";
+import { VARIANT } from "../strings/Constants";
 
 export default function MyMultipleLinesTextField(props: { title: string, helperText: string, values: Array<string> | undefined, onUpdated: (title: string, row: number, value: string) => void }) {
 

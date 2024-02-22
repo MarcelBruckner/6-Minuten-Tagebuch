@@ -11,7 +11,7 @@ class Eintrag(BaseModel):
     dasNehmeIchMirHeuteVor: str = ""
     heuteWirdGutWeil: str = ""
 
-    spruch: str = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho'
+    spruch: str = ''
 
     einePositiveAffirmation: str = ""
     dieSchoenstenMomenteAmHeutigenTag: List[str] = ["", "", ""]

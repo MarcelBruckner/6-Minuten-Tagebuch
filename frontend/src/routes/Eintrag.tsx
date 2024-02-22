@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Eintrag, EintragService, OpenAPI } from "../client";
-import moment from "moment";
 import MyMultipleLinesTextField from "../components/MyMultipleLinesTextField";
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../common/Helpers";
 import { DAS_NEHME_ICH_MIR_HEUTE_VOR, DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG, DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN, EINE_POSITIVE_AFFIRMATION, HEUTE_WIRD_GUT_WEIL, MORGEN_FREUE_ICH_MICH_AUF, PAULO_CUELHO } from "../strings/Eintrag";
 import { Card, CardContent, CardHeader, Container, TextField } from "@mui/material";
-import { VARIANT } from "../strings/constants";
+import { VARIANT } from "../strings/Constants";
 
 
 export default function EintragDetail(props: { onEditEintrag: (value: string) => void }) {
     const [cookies] = useCookies(['token'])
     const navigate = useNavigate();
-    let { date } = useParams();
+    let { dateParam } = useParams();
+    const date = useRef(dateParam);
 
     const [eintrag, setEintrag] = useState<Eintrag>({
         datum: formatDate(), dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: ["", "", ""], dasNehmeIchMirHeuteVor: "", heuteWirdGutWeil: "", einePositiveAffirmation: "", spruch: PAULO_CUELHO, dieSchoenstenMomenteAmHeutigenTag: ["", "", ""], morgenFreueIchMichAuf: ""
@@ -26,25 +26,25 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
         }
         OpenAPI.TOKEN = cookies.token;
 
-        if (!date || date === 'today') {
-            date = formatDate();
-            props.onEditEintrag(date!);
-            navigate(`/${date}`);
+        if (!date.current || date.current === 'today') {
+            date.current = formatDate();
+            props.onEditEintrag(date.current);
+            navigate(`/${date.current}`);
             return;
         }
-        props.onEditEintrag(date!);
+        props.onEditEintrag(date.current);
         window.scrollTo(0, 0)
 
         async function getEintrag() {
             try {
-                const eintrag = await EintragService.eintragGetEintrag({ datum: date! });
+                const eintrag = await EintragService.eintragGetEintrag({ datum: date.current! });
                 setEintrag(eintrag);
             } catch (e) {
                 console.log(e);
             }
         };
         getEintrag();
-    }, []);
+    }, [cookies, navigate, props]);
 
     async function onMyMultipleLinesTextFieldUpdated(title: string, row: number, value: string) {
         if (title === DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN) {
@@ -112,7 +112,7 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
 
     return <Card sx={{ mb: 10, mt: 2 }}>
         <CardHeader
-            title={date}
+            title={date.current}
         />
         <CardContent>
             <EintragRowMulti values={eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} title={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} helperText={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} />
