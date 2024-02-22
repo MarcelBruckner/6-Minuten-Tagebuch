@@ -35,6 +35,13 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
     const usernameError = React.useMemo<boolean>(() => formErrors.includes(USERNAME_ERROR), [formErrors])
 
+    React.useEffect(() => {
+        if (cookies.fuenf_minuten_tagebuch_token) {
+            navigate('/');
+            props.onSignIn();
+        }
+    }, [cookies, navigate])
+
     function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const value = event!.target.value;
         setCookie('fuenf_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
