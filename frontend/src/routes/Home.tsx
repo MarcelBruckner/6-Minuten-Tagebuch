@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import EintraegeList from "../components/EintraegeList";
 
 export default function Home() {
-    const [cookies] = useCookies(['token'])
+    const [cookies] = useCookies(['sechs_minute_tagebuch_token'])
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!cookies.token) {
+        if (!cookies.sechs_minute_tagebuch_token) {
             navigate("/signin");
             return;
         }

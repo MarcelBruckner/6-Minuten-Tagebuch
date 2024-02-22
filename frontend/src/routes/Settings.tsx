@@ -9,16 +9,16 @@ import { OpenAPI } from '../client';
 
 
 export default function Settings(props: { onEditSettings: () => void }) {
-    const [cookies, setCookie, removeCookie] = useCookies(['token', 'backend_url'])
+    const [cookies, setCookie, removeCookie] = useCookies(['sechs_minute_tagebuch_token', 'backend_url'])
     const navigate = useNavigate();
     props.onEditSettings();
 
     React.useEffect(() => {
-        if (!cookies.token) {
+        if (!cookies.sechs_minute_tagebuch_token) {
             navigate("/signin");
             return;
         }
-        OpenAPI.TOKEN = cookies.token;
+        OpenAPI.TOKEN = cookies.sechs_minute_tagebuch_token;
     }, [cookies, navigate])
 
     function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
@@ -27,7 +27,7 @@ export default function Settings(props: { onEditSettings: () => void }) {
     }
 
     function onLogout() {
-        removeCookie('token');
+        removeCookie('sechs_minute_tagebuch_token');
     }
 
     return <Box sx={{ mt: 10 }} textAlign='center'>

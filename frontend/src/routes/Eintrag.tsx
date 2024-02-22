@@ -10,7 +10,7 @@ import { VARIANT } from "../strings/Constants";
 
 
 export default function EintragDetail(props: { onEditEintrag: (value: string) => void }) {
-    const [cookies] = useCookies(['token'])
+    const [cookies] = useCookies(['sechs_minute_tagebuch_token'])
     const navigate = useNavigate();
     let { dateParam } = useParams();
     const date = useRef(dateParam);
@@ -20,11 +20,11 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
     });
 
     useEffect(() => {
-        if (!cookies.token) {
+        if (!cookies.sechs_minute_tagebuch_token) {
             navigate("/signin");
             return;
         }
-        OpenAPI.TOKEN = cookies.token;
+        OpenAPI.TOKEN = cookies.sechs_minute_tagebuch_token;
 
         if (!date.current || date.current === 'today') {
             date.current = formatDate();
