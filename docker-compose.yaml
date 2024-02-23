@@ -25,6 +25,7 @@ services:
     image: sechs-minuten-tagebuch/backend
     container_name: sechs-minuten-tagebuch-backend
     restart: unless-stopped
+    user: 1000:1000
     build:
       context: backend
       dockerfile: Dockerfile
@@ -42,3 +43,4 @@ services:
 
 networks:
   nginx:
+    external: true
