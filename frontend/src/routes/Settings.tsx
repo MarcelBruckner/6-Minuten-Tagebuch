@@ -9,7 +9,7 @@ import { OpenAPI } from '../client';
 import { DARK_THEME, LIGHT_THEME } from '../common/Themes'
 
 export default function Settings(props: { onEditSettings: () => void, darkTheme: boolean, setDarkTheme: (value: boolean) => void }) {
-    const [cookies, setCookie, removeCookie] = useCookies(['sechs_minuten_tagebuch_token', 'sechs_minuten_tagebuch_backend_url']);
+    const [cookies, setCookie, removeCookie] = useCookies(['sechs_minuten_tagebuch_token', 'sechs_minuten_tagebuch_backend_url', 'sechs_minuten_tagebuch_dark_theme']);
     const navigate = useNavigate();
     props.onEditSettings();
 
@@ -34,6 +34,7 @@ export default function Settings(props: { onEditSettings: () => void, darkTheme:
     function onChangeTheme(event: React.ChangeEvent<HTMLInputElement>) {
         const newValue = event.target.checked;
         props.setDarkTheme(newValue);
+        setCookie('sechs_minuten_tagebuch_dark_theme', newValue, { expires: new Date(2090, 1, 1) });
     }
 
     const MaterialUISwitch = styled(Switch)(({ theme }) => ({

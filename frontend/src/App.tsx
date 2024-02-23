@@ -20,8 +20,8 @@ import { DARK_THEME, LIGHT_THEME } from './common/Themes';
 
 export default function App() {
   const [bottomNavValue, setBottomNavValue] = useState('home');
-  const [cookies] = useCookies(['sechs_minuten_tagebuch_backend_url'])
-  const [darkTheme, setDarkTheme] = useState<boolean>(false);
+  const [cookies] = useCookies(['sechs_minuten_tagebuch_backend_url', 'sechs_minuten_tagebuch_dark_theme'])
+  const [darkTheme, setDarkTheme] = useState<boolean>(cookies.sechs_minuten_tagebuch_dark_theme);
 
   OpenAPI.BASE = cookies.sechs_minuten_tagebuch_backend_url;
   useEffect(() => {
