@@ -68,7 +68,7 @@ export default function EintragEditor(props: { eintrag: Eintrag, onEditEintrag: 
     }
 
     function Spruch(props: { value: string | undefined }) {
-        return <Typography sx={{ textTransform: 'uppercase', m: 10, fontStyle: 'italic' }} textAlign="center" variant="h5" >
+        return <Typography sx={{ textTransform: 'uppercase', m: 2, mt: 10, mb: 10, fontStyle: 'italic' }} textAlign="center" variant="h5" >
             {props.value}
         </Typography>
     }
