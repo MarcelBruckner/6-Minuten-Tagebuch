@@ -12,7 +12,7 @@ def custom_generate_unique_id(route: APIRoute):
 
 
 app = FastAPI(
-    title="5-Minuten Tagebuch",
+    title="6-Minuten Tagebuch",
     generate_unique_id_function=custom_generate_unique_id)
 
 app.include_router(auth.router)
