@@ -29,22 +29,22 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
     const [userIn, setUserIn] = React.useState<UserIn>({ email: "", password: "", username: "" })
     const [formErrors, setFormErrors] = React.useState<Array<string>>([])
     const [validationErrors, setValidationErrors] = React.useState<Array<string>>([])
-    const [cookies, setCookie] = useCookies(['fuenf_minuten_tagebuch_token', 'fuenf_minuten_tagebuch_backend_url'])
+    const [cookies, setCookie] = useCookies(['sechs_minuten_tagebuch_token', 'sechs_minuten_tagebuch_backend_url'])
 
     const passwordError = React.useMemo<boolean>(() => formErrors.includes(PASSWORD_ERROR), [formErrors])
     const emailError = React.useMemo<boolean>(() => formErrors.includes(EMAIL_ERROR), [formErrors])
     const usernameError = React.useMemo<boolean>(() => formErrors.includes(USERNAME_ERROR), [formErrors])
 
     React.useEffect(() => {
-        if (cookies.fuenf_minuten_tagebuch_token) {
+        if (cookies.sechs_minuten_tagebuch_token) {
             props.onSignIn();
             navigate('/');
         }
-    }, [cookies, navigate])
+    }, [cookies, navigate, props])
 
     function onChangeBackendUrl(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) {
         const value = event!.target.value;
-        setCookie('fuenf_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
+        setCookie('sechs_minuten_tagebuch_backend_url', value, { expires: new Date(2090, 1, 1) });
     }
 
     async function onSignUp(data: FormData): Promise<boolean> {
@@ -121,11 +121,11 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             if (remember) {
                 const token = jwtDecode(response.access_token) as { sub: string, exp: number };
                 const expires = new Date(token.exp * 1000);
-                setCookie('fuenf_minuten_tagebuch_token', response.access_token, { expires: expires })
-                // setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
+                setCookie('sechs_minuten_tagebuch_token', response.access_token, { expires: expires })
+                // setCookie('sechs_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none', expires: expires })
             } else {
-                setCookie('fuenf_minuten_tagebuch_token', response.access_token, {})
-                // setCookie('fuenf_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none' })
+                setCookie('sechs_minuten_tagebuch_token', response.access_token, {})
+                // setCookie('sechs_minuten_tagebuch_token', response.access_token, { secure: true, sameSite: 'none' })
             }
             console.log(response.access_token);
             OpenAPI.TOKEN = response.access_token;
@@ -161,7 +161,6 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
 
     return (
         <>
-            <CssBaseline />
             <Box
                 sx={{
                     marginTop: 8,
@@ -171,7 +170,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                 }}
             >
                 <Typography component="h1" variant="h3" sx={{ mb: 5 }}>
-                    5-Minuten Tagebuch
+                    6-Minuten Tagebuch
                 </Typography>
                 <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                     <LockOutlinedIcon />
@@ -237,7 +236,7 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
                         name="url"
                         autoComplete="url"
                         autoFocus
-                        value={cookies.fuenf_minuten_tagebuch_backend_url}
+                        value={cookies.sechs_minuten_tagebuch_backend_url}
                         onChange={onChangeBackendUrl}
                     />
                     {props.signin &&

@@ -10,15 +10,15 @@ import { reverse } from "dns";
 
 export default function EintraegeList() {
     const [eintraege, setEintraege] = useState<Array<Eintrag>>([])
-    const [cookies] = useCookies(['fuenf_minuten_tagebuch_token'])
+    const [cookies] = useCookies(['sechs_minuten_tagebuch_token'])
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!cookies.fuenf_minuten_tagebuch_token) {
+        if (!cookies.sechs_minuten_tagebuch_token) {
             navigate("/signin");
             return;
         }
-        OpenAPI.TOKEN = cookies.fuenf_minuten_tagebuch_token;
+        OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
         async function getEintraege() {
             try {

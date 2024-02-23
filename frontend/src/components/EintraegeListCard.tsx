@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Edit from '@mui/icons-material/Edit';
-import { DAS_NEHME_ICH_MIR_HEUTE_VOR, DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG, DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN, EINE_POSITIVE_AFFIRMATION, HEUTE_WIRD_GUT_WEIL, MORGEN_FREUE_ICH_MICH_AUF } from "../strings/Eintrag";
+import { SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG, TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE, ICH_BIN_DANKBAR_FUER, WAS_HABE_ICH_HEUTE_GUTES_GETAN, POSITIVE_SELBSTBEKRAEFTIGUNG, WAS_HABE_ICH_HEUTE_GELERNT } from "../strings/Eintrag";
 import { Eintrag } from '../client';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -45,13 +45,13 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
 
     function EintragCard(props: { eintrag: Eintrag }) {
         return <Box>
-            <EintragRow heading={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} values={props.eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} />
-            <EintragRow heading={DAS_NEHME_ICH_MIR_HEUTE_VOR} values={props.eintrag.dasNehmeIchMirHeuteVor} />
-            <EintragRow heading={HEUTE_WIRD_GUT_WEIL} values={props.eintrag.heuteWirdGutWeil} />
+            <EintragRow heading={ICH_BIN_DANKBAR_FUER} values={props.eintrag.ich_bin_dankbar_fuer} />
+            <EintragRow heading={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} values={props.eintrag.so_sorge_ich_fuer_einen_guten_tag} />
+            <EintragRow heading={POSITIVE_SELBSTBEKRAEFTIGUNG} values={props.eintrag.positive_selbstbekraeftigung} />
             <EintragRow heading="" values={props.eintrag.spruch} italic />
-            <EintragRow heading={EINE_POSITIVE_AFFIRMATION} values={props.eintrag.einePositiveAffirmation} />
-            <EintragRow heading={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} values={props.eintrag.dieSchoenstenMomenteAmHeutigenTag} />
-            <EintragRow heading={MORGEN_FREUE_ICH_MICH_AUF} values={props.eintrag.morgenFreueIchMichAuf} />
+            <EintragRow heading={WAS_HABE_ICH_HEUTE_GUTES_GETAN} values={props.eintrag.was_habe_ich_heute_gutes_getan} />
+            <EintragRow heading={WAS_HABE_ICH_HEUTE_GELERNT} values={props.eintrag.was_habe_ich_heute_gelernt} />
+            <EintragRow heading={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} values={props.eintrag.tolle_dinge_die_ich_heute_erlebt_habe} />
         </Box>
     }
 
@@ -60,7 +60,7 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
     }
 
     return (
-        <Card sx={{ m: 2 }}>
+        <Card sx={{ mb: 2 }}>
             <CardHeader
                 title={props.eintrag.datum}
             />

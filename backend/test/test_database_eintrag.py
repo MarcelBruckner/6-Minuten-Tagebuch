@@ -34,14 +34,14 @@ def test_read_eintrag_not_present():
 def test_read_write_eintrag():
     datum = datetime.date(1970, 1, 1)
     expected_eintrag = Eintrag(datum=datum,
-                               dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin=[
+                               ich_bin_dankbar_fuer=[
                                    "a", "b", "c"],
-                               dasNehmeIchMirHeuteVor="dasNehmeIchMirHeuteVor",
-                               heuteWirdGutWeil="heuteWirdGutWeil",
-                               morgenFreueIchMichAuf="morgenFreueIchMichAuf",
-                               dieSchoenstenMomenteAmHeutigenTag=[
+                               so_sorge_ich_fuer_einen_guten_tag="dasNehmeIchMirHeuteVor",
+                               positive_selbstbekraeftigung="heuteWirdGutWeil",
+                               was_habe_ich_heute_gelernt="morgenFreueIchMichAuf",
+                               tolle_dinge_die_ich_heute_erlebt_habe=[
                                    "x", "y", "z"],
-                               einePositiveAffirmation="einePositiveAffirmation",
+                               was_habe_ich_heute_gutes_getan="einePositiveAffirmation",
                                spruch="spruch")
 
     write_eintrag(TEST_USER, expected_eintrag)

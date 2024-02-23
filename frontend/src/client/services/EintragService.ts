@@ -36,7 +36,7 @@ export class EintragService {
      */
     public static eintragGetEintraegeInDateRange({
         startDate = '1970-01-01',
-        endDate = '2024-02-22',
+        endDate = '2024-02-23',
     }: {
         startDate?: string,
         endDate?: string,
@@ -61,7 +61,7 @@ export class EintragService {
      */
     public static eintragGetLastEintraege({
         number = 5,
-        endDate = '2024-02-22',
+        endDate = '2024-02-23',
     }: {
         number?: number,
         endDate?: string,

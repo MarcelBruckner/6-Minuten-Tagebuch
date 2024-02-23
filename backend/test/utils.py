@@ -21,14 +21,14 @@ TEST_USER = UserIn(email=TEST_USERS_IN_DB[0].email,
 
 TEST_DATUM = datetime.date(1980, 1, 1)
 TEST_EINTRAEGE = [Eintrag(datum=TEST_DATUM + datetime.timedelta(days=i),
-                          dasNehmeIchMirHeuteVor=fake.sentence(),
-                          dieSchoenstenMomenteAmHeutigenTag=[
+                          so_sorge_ich_fuer_einen_guten_tag=fake.sentence(),
+                          tolle_dinge_die_ich_heute_erlebt_habe=[
     fake.sentence(), fake.sentence(), fake.sentence()],
-    dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin=[
+    ich_bin_dankbar_fuer=[
     fake.sentence(), fake.sentence(), fake.sentence()],
-    einePositiveAffirmation=fake.sentence(),
-    heuteWirdGutWeil=fake.sentence(),
-    morgenFreueIchMichAuf=fake.sentence(),
+    was_habe_ich_heute_gutes_getan=fake.sentence(),
+    positive_selbstbekraeftigung=fake.sentence(),
+    was_habe_ich_heute_gelernt=fake.sentence(),
     spruch=fake.sentence()) for i in range(10)]
 
 

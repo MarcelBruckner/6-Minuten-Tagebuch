@@ -1,31 +1,40 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Eintrag, EintragService, OpenAPI } from "../client";
 import MyMultipleLinesTextField from "../components/MyMultipleLinesTextField";
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
-import { formatDate } from "../common/Helpers";
-import { DAS_NEHME_ICH_MIR_HEUTE_VOR, DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG, DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN, EINE_POSITIVE_AFFIRMATION, HEUTE_WIRD_GUT_WEIL, MORGEN_FREUE_ICH_MICH_AUF, PAULO_CUELHO } from "../strings/Eintrag";
+import { formatDate, get_random_quote as getRandomQuote } from "../common/Helpers";
+import { SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG, TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE, ICH_BIN_DANKBAR_FUER, WAS_HABE_ICH_HEUTE_GUTES_GETAN, POSITIVE_SELBSTBEKRAEFTIGUNG, WAS_HABE_ICH_HEUTE_GELERNT } from "../strings/Eintrag";
 import { Card, CardContent, CardHeader, Container, TextField } from "@mui/material";
 import { VARIANT } from "../strings/Constants";
 
 
 export default function EintragDetail(props: { onEditEintrag: (value: string) => void }) {
-    const [cookies] = useCookies(['fuenf_minuten_tagebuch_token'])
+    const [cookies] = useCookies(['sechs_minuten_tagebuch_token'])
     const navigate = useNavigate();
     let { date } = useParams();
 
+
     const [eintrag, setEintrag] = useState<Eintrag>({
-        datum: formatDate(), dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: ["", "", ""], dasNehmeIchMirHeuteVor: "", heuteWirdGutWeil: "", einePositiveAffirmation: "", spruch: PAULO_CUELHO, dieSchoenstenMomenteAmHeutigenTag: ["", "", ""], morgenFreueIchMichAuf: ""
+        datum: formatDate(),
+        ich_bin_dankbar_fuer: ["", "", ""],
+        so_sorge_ich_fuer_einen_guten_tag: "",
+        positive_selbstbekraeftigung: "",
+        spruch: getRandomQuote(),
+        was_habe_ich_heute_gutes_getan: "",
+        was_habe_ich_heute_gelernt: "",
+        tolle_dinge_die_ich_heute_erlebt_habe: ["", "", ""],
     });
 
     useEffect(() => {
-        if (!cookies.fuenf_minuten_tagebuch_token) {
+        if (!cookies.sechs_minuten_tagebuch_token) {
             navigate("/signin");
             return;
         }
-        OpenAPI.TOKEN = cookies.fuenf_minuten_tagebuch_token;
+        OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
-        if (!date || date === 'today') {
+        if (!date) {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             date = formatDate();
             props.onEditEintrag(date);
             navigate(`/${date}`);
@@ -39,23 +48,26 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
                 const eintrag = await EintragService.eintragGetEintrag({ datum: date! });
                 setEintrag(eintrag);
             } catch (e) {
-                console.log(e);
+                try {
+                    await EintragService.eintragPutEintrag({ requestBody: eintrag });
+                } catch (e) {
+                }
             }
         };
         getEintrag();
-    }, [cookies, navigate, props]);
+    }, [cookies, navigate, props, date]);
 
     async function onMyMultipleLinesTextFieldUpdated(title: string, row: number, value: string) {
-        if (title === DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN) {
-            if (!eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin) {
-                eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin = new Array(row)
+        if (title === ICH_BIN_DANKBAR_FUER) {
+            if (!eintrag.ich_bin_dankbar_fuer) {
+                eintrag.ich_bin_dankbar_fuer = new Array(row)
             }
-            eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin[row] = value;
-        } else if (title === DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG) {
-            if (!eintrag.dieSchoenstenMomenteAmHeutigenTag) {
-                eintrag.dieSchoenstenMomenteAmHeutigenTag = new Array(row)
+            eintrag.ich_bin_dankbar_fuer[row] = value;
+        } else if (title === TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE) {
+            if (!eintrag.tolle_dinge_die_ich_heute_erlebt_habe) {
+                eintrag.tolle_dinge_die_ich_heute_erlebt_habe = new Array(row)
             }
-            eintrag.dieSchoenstenMomenteAmHeutigenTag[row] = value;
+            eintrag.tolle_dinge_die_ich_heute_erlebt_habe[row] = value;
         } else {
             throw new Error("Unknown MyTextField updated: " + title)
         }
@@ -65,14 +77,14 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
     }
 
     async function onMyTextFieldUpdated(title: string, value: string) {
-        if (title === DAS_NEHME_ICH_MIR_HEUTE_VOR) {
-            eintrag.dasNehmeIchMirHeuteVor = value;
-        } else if (title === HEUTE_WIRD_GUT_WEIL) {
-            eintrag.heuteWirdGutWeil = value;
-        } else if (title === EINE_POSITIVE_AFFIRMATION) {
-            eintrag.einePositiveAffirmation = value;
-        } else if (title === MORGEN_FREUE_ICH_MICH_AUF) {
-            eintrag.morgenFreueIchMichAuf = value;
+        if (title === SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG) {
+            eintrag.so_sorge_ich_fuer_einen_guten_tag = value;
+        } else if (title === POSITIVE_SELBSTBEKRAEFTIGUNG) {
+            eintrag.positive_selbstbekraeftigung = value;
+        } else if (title === WAS_HABE_ICH_HEUTE_GUTES_GETAN) {
+            eintrag.was_habe_ich_heute_gutes_getan = value;
+        } else if (title === WAS_HABE_ICH_HEUTE_GELERNT) {
+            eintrag.was_habe_ich_heute_gelernt = value;
         } else {
             throw new Error("Unknown MyTextField updated: " + title)
         }
@@ -114,17 +126,17 @@ export default function EintragDetail(props: { onEditEintrag: (value: string) =>
             title={date}
         />
         <CardContent>
-            <EintragRowMulti values={eintrag.dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin} title={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} helperText={DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN} />
-            <EintragRowSingle title={DAS_NEHME_ICH_MIR_HEUTE_VOR} value={eintrag.dasNehmeIchMirHeuteVor} helperText={DAS_NEHME_ICH_MIR_HEUTE_VOR} />
-            <EintragRowSingle title={HEUTE_WIRD_GUT_WEIL} value={eintrag.heuteWirdGutWeil} helperText={HEUTE_WIRD_GUT_WEIL} />
+            <EintragRowMulti values={eintrag.ich_bin_dankbar_fuer} title={ICH_BIN_DANKBAR_FUER} helperText={ICH_BIN_DANKBAR_FUER} />
+            <EintragRowSingle title={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} value={eintrag.so_sorge_ich_fuer_einen_guten_tag} helperText={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} />
+            <EintragRowSingle title={POSITIVE_SELBSTBEKRAEFTIGUNG} value={eintrag.positive_selbstbekraeftigung} helperText={POSITIVE_SELBSTBEKRAEFTIGUNG} />
 
             <Container className="spruch" maxWidth="sm">
                 <h1><i>{eintrag.spruch}</i></h1>
             </Container>
 
-            <EintragRowSingle title={EINE_POSITIVE_AFFIRMATION} value={eintrag.einePositiveAffirmation} helperText={EINE_POSITIVE_AFFIRMATION} />
-            <EintragRowMulti values={eintrag.dieSchoenstenMomenteAmHeutigenTag} title={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} helperText={DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG} />
-            <EintragRowSingle title={MORGEN_FREUE_ICH_MICH_AUF} value={eintrag.morgenFreueIchMichAuf} helperText={MORGEN_FREUE_ICH_MICH_AUF} />
+            <EintragRowSingle title={WAS_HABE_ICH_HEUTE_GUTES_GETAN} value={eintrag.was_habe_ich_heute_gutes_getan} helperText={WAS_HABE_ICH_HEUTE_GUTES_GETAN} />
+            <EintragRowSingle title={WAS_HABE_ICH_HEUTE_GELERNT} value={eintrag.was_habe_ich_heute_gelernt} helperText={WAS_HABE_ICH_HEUTE_GELERNT} />
+            <EintragRowMulti values={eintrag.tolle_dinge_die_ich_heute_erlebt_habe} title={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} helperText={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} />
 
         </CardContent>
     </Card>

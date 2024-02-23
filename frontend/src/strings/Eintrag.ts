@@ -1,9 +1,7 @@
-export const DREI_GROSSE_ODER_KLEINE_DINGE_FUER_DIE_ICH_HEUTE_DANKBAR_BIN = "3 große oder kleine Dinge, für die ich heute dankbar bin";
-export const DAS_NEHME_ICH_MIR_HEUTE_VOR = "Das nehme ich mir heute vor";
-export const HEUTE_WIRD_GUT_WEIL = "Heute wird gut weil ...";
+export const ICH_BIN_DANKBAR_FUER = "Ich bin dankbar für...";
+export const SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG = "So sorge ich für einen guten Tag...";
+export const POSITIVE_SELBSTBEKRAEFTIGUNG = "Positive Selbstbekräftigung";
 
-export const EINE_POSITIVE_AFFIRMATION = "Eine positive Affirmation";
-export const DIE_SCHOENSTEN_MOMENTE_AM_HEUTIGEN_TAG = "Die schönsten Momente am heutigen Tag";
-export const MORGEN_FREUE_ICH_MICH_AUF = "Morgen freue ich mich auf";
-
-export const PAULO_CUELHO = 'Wenn du "ja" sagst, dann sei dir sicher, dass du nicht "nein" zu dir selbst sagst; Paulo Cuelho';
+export const WAS_HABE_ICH_HEUTE_GUTES_GETAN = "Was habe ich heute gutes für jemanden oder für mich getan?";
+export const WAS_HABE_ICH_HEUTE_GELERNT = "Was habe ich heute gelernt";
+export const TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE = "Tolle Dinge, die ich heute erlebt habe...";

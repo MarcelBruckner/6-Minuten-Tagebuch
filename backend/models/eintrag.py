@@ -6,13 +6,13 @@ from typing import List
 class Eintrag(BaseModel):
     datum: datetime.date = Field(examples=[datetime.date.today()])
 
-    dreiGrosseOderKleineDingeFuerDieIchHeuteDankbarBin: List[str] = [
+    ich_bin_dankbar_fuer: List[str] = [
         "", "", ""]
-    dasNehmeIchMirHeuteVor: str = ""
-    heuteWirdGutWeil: str = ""
+    so_sorge_ich_fuer_einen_guten_tag: str = ""
+    positive_selbstbekraeftigung: str = ""
 
     spruch: str = ''
 
-    einePositiveAffirmation: str = ""
-    dieSchoenstenMomenteAmHeutigenTag: List[str] = ["", "", ""]
-    morgenFreueIchMichAuf: str = ""
+    was_habe_ich_heute_gutes_getan: str = ""
+    was_habe_ich_heute_gelernt: str = ""
+    tolle_dinge_die_ich_heute_erlebt_habe: List[str] = ["", "", ""]

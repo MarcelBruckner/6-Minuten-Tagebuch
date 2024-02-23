@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import { QUOTES } from "../strings/Quotes";
 export function formatDate(date: Date | undefined = undefined) {
   if (!date) {
     date = new Date();
@@ -16,4 +16,9 @@ export function parseDate(date: string) {
 
 export function isDate(date: string) {
   return moment(date, "YYYY-MM-DD").isValid();
+}
+
+export function get_random_quote(): string {
+  const random = Math.floor(Math.random() * QUOTES.length);
+  return QUOTES[random];
 }
