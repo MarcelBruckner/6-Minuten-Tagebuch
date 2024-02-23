@@ -4,6 +4,7 @@ services:
   frontend:
     image: sechs-minuten-tagebuch/frontend
     container_name: sechs-minuten-tagebuch
+    restart: unless-stopped
     build:
       context: frontend
       dockerfile: Dockerfile
@@ -23,6 +24,7 @@ services:
   backend:
     image: sechs-minuten-tagebuch/backend
     container_name: sechs-minuten-tagebuch-backend
+    restart: unless-stopped
     build:
       context: backend
       dockerfile: Dockerfile
