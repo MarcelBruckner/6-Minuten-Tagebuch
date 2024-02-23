@@ -25,7 +25,7 @@ async def get_current_active_user(current_user: Annotated[User, Depends(auth.get
     return current_user
 
 
-@router.post("/create", status_code=201)
+@router.post("/", status_code=201)
 async def create_user(new_user: UserIn):
     if user_db.exists_user(new_user.username):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT,
@@ -41,7 +41,7 @@ async def create_user(new_user: UserIn):
     user_db.write_user(db_user)
 
 
-@router.delete("/delete", status_code=status.HTTP_202_ACCEPTED)
+@router.delete("/", status_code=status.HTTP_202_ACCEPTED)
 async def delete_user(current_user: Annotated[User, Depends(auth.get_current_active_user)]):
     user_db.delete_user(username=current_user.username)
     return current_user

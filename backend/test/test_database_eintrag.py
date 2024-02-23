@@ -2,7 +2,7 @@ import datetime
 import shutil
 
 import pytest
-from database.eintrag import delete_user_data, read_eintraege, read_eintrag, read_last_eintraege, write_eintrag
+from database.eintrag import delete_eintrag, delete_user_data, read_eintraege, read_eintrag, read_last_eintraege, write_eintrag
 from models.eintrag import Eintrag
 from utils import TEST_DATUM, TEST_EINTRAEGE, TEST_USER, set_data_path
 
@@ -103,3 +103,8 @@ def test_read_last_eintraege_empty():
     eintraege = read_last_eintraege(
         user=TEST_USER, number=5, end_date=TEST_DATUM - datetime.timedelta(days=1))
     assert len(eintraege) == 0
+
+
+def test_delete_eintrag():
+    delete_eintrag(user=TEST_USER, datum=TEST_DATUM)
+    assert not read_eintrag(user=TEST_USER, datum=TEST_DATUM)

@@ -1,24 +1,28 @@
-import moment from "moment";
-import { QUOTES } from "../strings/Quotes";
-export function formatDate(date: Date | undefined = undefined) {
+import moment, { Moment } from "moment";
+
+export function formatDate(date: Date | undefined | Moment = undefined) {
   if (!date) {
     date = new Date();
   }
-  return moment(date).format("YYYY-MM-DD");
+  if (date instanceof Date) {
+    date = moment(date);
+  }
+  return date.format("YYYY-MM-DD");
 }
 
-export function parseDate(date: string) {
+export function parseDate(date: string | Date) {
   if (!isDate(date)) {
     return undefined;
   }
-  return moment(date, "YYYY-MM-DD");
+  if (date instanceof Date) {
+    return date;
+  }
+  return moment(date, "YYYY-MM-DD").toDate();
 }
 
-export function isDate(date: string) {
+export function isDate(date: string | Date) {
+  if (date instanceof Date) {
+    return true;
+  }
   return moment(date, "YYYY-MM-DD").isValid();
-}
-
-export function get_random_quote(): string {
-  const random = Math.floor(Math.random() * QUOTES.length);
-  return QUOTES[random];
 }

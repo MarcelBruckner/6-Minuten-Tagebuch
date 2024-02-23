@@ -3,6 +3,7 @@ import sqlite3
 from typing import List
 
 from common.environment import get_data_path
+from database.eintrag import delete_user_data
 from models.user import UserInDB
 
 
@@ -88,6 +89,8 @@ def write_users(users: List[UserInDB]):
 
 
 def delete_user(username: str):
+    user = read_user(username)
+
     connection = get_database()
     cursor = connection.cursor()
 
@@ -98,3 +101,4 @@ def delete_user(username: str):
 
     if exists_user(username):
         raise sqlite3.Error(f"Couln't delete user {username} from database")
+    delete_user_data(user)

@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, ThemeProvider } from '@mui/material';
 import { OpenAPI } from './client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './routes/Home';
 import { LIGHT_THEME } from './common/Themes';
 import SignIn from './routes/SignIn';
@@ -15,7 +15,8 @@ import EintragDetail from './routes/Eintrag';
 import { useEffect, useState } from 'react';
 import Settings from './routes/Settings';
 import { useCookies } from 'react-cookie';
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 
 export default function App() {
   const [bottomNavValue, setBottomNavValue] = useState('home');
@@ -24,21 +25,22 @@ export default function App() {
   useEffect(() => {
     document.title = '6-Minuten Tagebuch';
   }, []);
-
   return (
     <BrowserRouter>
       <ThemeProvider theme={LIGHT_THEME}>
-        <CssBaseline />
-        <Container component="main" maxWidth="md">
-          <Routes>
-            <Route path="/" element={<Home />} /> :
-            <Route path="/signin" element={<SignIn signin={true} onSignIn={() => setBottomNavValue('home')} />} />
-            <Route path="/signup" element={<SignIn signin={false} onSignIn={() => setBottomNavValue('home')} />} />
-            <Route path="/settings" element={<Settings onEditSettings={() => setBottomNavValue('settings')} />} />
-            <Route path="/:date" element={<EintragDetail onEditEintrag={setBottomNavValue} />} />
-          </Routes>
-        </Container>
-        <BottomNav value={bottomNavValue} setValue={setBottomNavValue} />
+        <LocalizationProvider dateAdapter={AdapterMoment}>
+          <CssBaseline />
+          <Container component="main" maxWidth="md">
+            <Routes>
+              <Route path="/" element={<Home />} /> :
+              <Route path="/signin" element={<SignIn signin={true} onSignIn={() => setBottomNavValue('home')} />} />
+              <Route path="/signup" element={<SignIn signin={false} onSignIn={() => setBottomNavValue('home')} />} />
+              <Route path="/settings" element={<Settings onEditSettings={() => setBottomNavValue('settings')} />} />
+              <Route path="/:date" element={<EintragDetail onChangeDate={setBottomNavValue} onDeleteEintrag={() => setBottomNavValue('home')} />} />
+            </Routes>
+          </Container>
+          <BottomNav value={bottomNavValue} setValue={setBottomNavValue} />
+        </LocalizationProvider>
       </ThemeProvider>
     </BrowserRouter>
   );

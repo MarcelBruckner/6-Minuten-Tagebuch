@@ -80,20 +80,42 @@ export class EintragService {
         });
     }
     /**
-     * Put Eintrag
+     * Post Eintrag
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static eintragPutEintrag({
+    public static eintragPostEintrag({
         requestBody,
     }: {
-        requestBody: Eintrag,
+        requestBody: (Eintrag | string),
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
-            method: 'PUT',
+            method: 'POST',
             url: '/eintrag/',
             body: requestBody,
             mediaType: 'application/json',
+            errors: {
+                404: `Not found`,
+                422: `Validation Error`,
+            },
+        });
+    }
+    /**
+     * Delete Eintrag
+     * @returns any Successful Response
+     * @throws ApiError
+     */
+    public static eintragDeleteEintrag({
+        date,
+    }: {
+        date: string,
+    }): CancelablePromise<any> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/eintrag/{date}',
+            path: {
+                'date': date,
+            },
             errors: {
                 404: `Not found`,
                 422: `Validation Error`,

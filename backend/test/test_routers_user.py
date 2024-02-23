@@ -17,7 +17,7 @@ DATA_PATH = set_data_path(__file__)
 @pytest.fixture(autouse=True)
 def run_around_tests():
     shutil.rmtree(DATA_PATH, ignore_errors=True)
-    response = client.post(f"/user/create", json=TEST_USER.model_dump())
+    response = client.post(f"/user/", json=TEST_USER.model_dump())
     assert response.status_code == status.HTTP_201_CREATED
     assert not response.json()
 
@@ -41,14 +41,14 @@ def test_get_user():
 
 
 def test_create_existing_user():
-    response = client.post(f"/user/create", json=TEST_USER.model_dump())
+    response = client.post(f"/user/", json=TEST_USER.model_dump())
     assert response.status_code == status.HTTP_409_CONFLICT
     assert response.json()['detail'] == USER_EXISTS_ALREADY
 
 
 def test_delete_user():
     headers = get_auth_headers(TEST_USER.username)
-    response = client.delete("/user/delete", headers=headers)
+    response = client.delete("/user/", headers=headers)
     assert response.status_code == status.HTTP_202_ACCEPTED
     assert_test_user(response)
 

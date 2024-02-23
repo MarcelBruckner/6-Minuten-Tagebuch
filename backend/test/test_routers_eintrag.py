@@ -25,11 +25,11 @@ def get_headers():
 @pytest.fixture(autouse=True)
 def run_around_tests():
     shutil.rmtree(DATA_PATH, ignore_errors=True)
-    response = client.post(f"/user/create", json=TEST_USER.model_dump())
+    response = client.post(f"/user/", json=TEST_USER.model_dump())
     assert response.status_code == status.HTTP_201_CREATED or status.HTTP_409_CONFLICT
 
     for eintrag in TEST_EINTRAEGE:
-        response = client.put(
+        response = client.post(
             f"/eintrag/", data=eintrag.model_dump_json(), headers=get_headers(),
         )
         assert response.status_code == status.HTTP_201_CREATED
@@ -116,3 +116,8 @@ def test_get_eintraege_empty():
 
     assert len(get_eintrage_last(number=5, end_date=TEST_DATUM -
                datetime.timedelta(days=1))) == 0
+
+
+def test_delete_eintrag():
+    response = client.delete(f"/eintrag/{TEST_DATUM}", headers=get_headers())
+    assert response.status_code == 202

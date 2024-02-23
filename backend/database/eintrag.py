@@ -79,7 +79,9 @@ def read_last_eintraege(user: User, number: int = 10, end_date: datetime.date = 
 def delete_eintrag(user: User, datum: datetime.date) -> bool:
     path = _get_path(user, datum)
     path.unlink()
-    return not path.exists()
+    if exists_eintrag(user, datum):
+        raise FileNotFoundError(f"Couln't delete entry "
+                                f"{datum} for {user.username}")
 
 
 def delete_user_data(user: User) -> bool:

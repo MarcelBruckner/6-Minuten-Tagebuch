@@ -34,7 +34,7 @@ export class UserService {
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/user/create',
+            url: '/user/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -51,7 +51,7 @@ export class UserService {
     public static userDeleteUser(): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/user/delete',
+            url: '/user/',
             errors: {
                 404: `Not found`,
             },

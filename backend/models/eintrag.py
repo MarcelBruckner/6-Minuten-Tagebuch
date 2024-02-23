@@ -2,6 +2,8 @@ from pydantic import BaseModel, EmailStr, Field
 import datetime
 from typing import List
 
+from common.quotes import get_random_quote
+
 
 class Eintrag(BaseModel):
     datum: datetime.date = Field(examples=[datetime.date.today()])
@@ -11,7 +13,7 @@ class Eintrag(BaseModel):
     so_sorge_ich_fuer_einen_guten_tag: str = ""
     positive_selbstbekraeftigung: str = ""
 
-    spruch: str = ''
+    spruch: str = ""
 
     was_habe_ich_heute_gutes_getan: str = ""
     was_habe_ich_heute_gelernt: str = ""
