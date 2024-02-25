@@ -47,25 +47,39 @@ def read_eintrag(user: User, datum: datetime.date) -> Eintrag | None:
     return eintrag
 
 
-def read_eintraege(user: User, start_date: datetime.date = datetime.date(1970, 1, 1), end_date: datetime.date = datetime.date.today()) -> Eintrag:
+def read_eintraege(user: User, start_date: datetime.date = None, end_date: datetime.date = None) -> Eintrag:
     eintraege = []
     path = _get_path(user)
     eintraege_paths = list(path.glob('*.json'))
 
-    relevante_paths = list(filter(lambda path: start_date <= datetime.datetime.strptime(
-        path.stem, DATE_FORMAT).date() <= end_date, eintraege_paths))
+    if not start_date and end_date:
+        def filter_lambda(path): return datetime.datetime.strptime(
+            path.stem, DATE_FORMAT).date() <= end_date
+    elif start_date and not end_date:
+        def filter_lambda(path): return start_date <= datetime.datetime.strptime(
+            path.stem, DATE_FORMAT).date()
+    elif start_date and end_date:
+        def filter_lambda(path): return start_date <= datetime.datetime.strptime(
+            path.stem, DATE_FORMAT).date() <= end_date
+    else:
+        def filter_lambda(path): return True
+
+    relevante_paths = list(filter(filter_lambda, eintraege_paths))
 
     eintraege = list(map(lambda path: Eintrag(
                          ** json.loads(path.read_text(encoding='utf-8'))), relevante_paths))
     return eintraege
 
 
-def read_last_eintraege(user: User, number: int = 10, end_date: datetime.date = datetime.date.today()) -> Eintrag:
+def read_last_eintraege(user: User, number: int = 10, end_date: datetime.date = None) -> Eintrag:
     if number <= 0:
         return []
     eintraege = []
     path = _get_path(user)
     eintraege_paths = list(path.glob('*.json'))
+
+    if end_date == None:
+        end_date = datetime.date.today()
 
     relevante_paths = list(filter(lambda path: datetime.datetime.strptime(
         path.stem, DATE_FORMAT).date() <= end_date, eintraege_paths))

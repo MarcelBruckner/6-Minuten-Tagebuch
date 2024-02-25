@@ -29,7 +29,7 @@ async def get_eintrag(datum: datetime.date, current_user: Annotated[User, Depend
 
 
 @router.get("/range/", response_model=List[Eintrag])
-async def get_eintraege_in_date_range(current_user: Annotated[User, Depends(auth.get_current_active_user)], start_date: datetime.date = datetime.date(1970, 1, 1), end_date: datetime.date = datetime.date.today()):
+async def get_eintraege_in_date_range(current_user: Annotated[User, Depends(auth.get_current_active_user)], start_date: datetime.date | None = None, end_date: datetime.date | None = None):
     eintraege = eintrag_db.read_eintraege(
         current_user, start_date=start_date, end_date=end_date)
     return eintraege
