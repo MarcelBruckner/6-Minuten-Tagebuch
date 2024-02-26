@@ -17,6 +17,8 @@ import { useCookies } from 'react-cookie';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DARK_THEME, LIGHT_THEME } from './common/Themes';
+import 'moment/locale/de';
+
 
 export default function App() {
   const [cookies] = useCookies(['sechs_minuten_tagebuch_backend_url', 'sechs_minuten_tagebuch_dark_theme'])
@@ -30,7 +32,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={darkTheme ? DARK_THEME : LIGHT_THEME}>
-        <LocalizationProvider dateAdapter={AdapterMoment}>
+        <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="de" >
           <CssBaseline />
           <Container component="main" maxWidth="md">
             <Routes>
@@ -38,7 +40,7 @@ export default function App() {
               <Route path="/signin" element={<SignIn signin={true} />} />
               <Route path="/signup" element={<SignIn signin={false} />} />
               <Route path="/settings" element={<Settings darkTheme={darkTheme} setDarkTheme={setDarkTheme} />} />
-              <Route path="/:date" element={<EintragDetail />} />
+              <Route path="/daily/:date" element={<EintragDetail />} />
             </Routes>
           </Container>
           <BottomNav />

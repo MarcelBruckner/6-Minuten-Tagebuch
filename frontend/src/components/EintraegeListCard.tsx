@@ -56,7 +56,7 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
     }
 
     function onEdit(value: any) {
-        navigate(value);
+        navigate(`/daily/${value}`);
     }
 
     return (

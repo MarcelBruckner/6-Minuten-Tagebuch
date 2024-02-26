@@ -68,7 +68,7 @@ export default function EintragDetail() {
             return;
         }
         eintrag.datum = formatDate(value);
-        navigate(`/${eintrag.datum}`);
+        navigate(`/daily/${eintrag.datum}`);
     }
 
     async function onEditEintrag(value: Eintrag) {
