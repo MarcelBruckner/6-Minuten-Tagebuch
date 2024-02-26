@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -22,7 +21,7 @@ const USERNAME_ERROR = "Username not set!";
 const EMAIL_ERROR = "EMail not set!";
 const PASSWORD_ERROR = "Pasword not set!";
 
-export default function SignIn(props: { signin: boolean, onSignIn: () => void }) {
+export default function SignIn(props: { signin: boolean }) {
     const navigate = useNavigate();
 
     const [authBody, setAuthBody] = React.useState<Body_auth_login_for_access_token>({ username: "", password: "" })
@@ -37,7 +36,6 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
 
     React.useEffect(() => {
         if (cookies.sechs_minuten_tagebuch_token) {
-            props.onSignIn();
             navigate('/');
         }
     }, [cookies, navigate, props])
@@ -148,7 +146,6 @@ export default function SignIn(props: { signin: boolean, onSignIn: () => void })
             if (!result) {
                 return;
             }
-            props.onSignIn();
             navigate("/");
         } else {
             const result = await onSignUp(data);

@@ -2,16 +2,14 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Copyright from '../components/Copyright';
 import { useCookies } from 'react-cookie'
-import { Box, FormControlLabel, IconButton, Switch, Theme, styled } from '@mui/material';
+import { Box, FormControlLabel, IconButton, Switch, styled } from '@mui/material';
 import { Logout } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { OpenAPI } from '../client';
-import { DARK_THEME, LIGHT_THEME } from '../common/Themes'
 
-export default function Settings(props: { onEditSettings: () => void, darkTheme: boolean, setDarkTheme: (value: boolean) => void }) {
+export default function Settings(props: { darkTheme: boolean, setDarkTheme: (value: boolean) => void }) {
     const [cookies, setCookie, removeCookie] = useCookies(['sechs_minuten_tagebuch_token', 'sechs_minuten_tagebuch_backend_url', 'sechs_minuten_tagebuch_dark_theme']);
     const navigate = useNavigate();
-    props.onEditSettings();
 
 
     React.useEffect(() => {

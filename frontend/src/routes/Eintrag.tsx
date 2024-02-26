@@ -7,11 +7,10 @@ import { Alert, Card, CardActions, CardContent, IconButton } from "@mui/material
 import { DatePicker } from "@mui/x-date-pickers";
 import moment, { Moment } from "moment";
 import EintragEditor from "../components/EintragEditor";
-import { Console } from "console";
 import { Delete } from "@mui/icons-material";
 
 
-export default function EintragDetail(props: { onChangeDate: (value: string) => void, onDeleteEintrag: () => void }) {
+export default function EintragDetail() {
     const [cookies] = useCookies(['sechs_minuten_tagebuch_token'])
     const navigate = useNavigate();
     let { date } = useParams();
@@ -54,7 +53,6 @@ export default function EintragDetail(props: { onChangeDate: (value: string) => 
         if (!date) {
             // eslint-disable-next-line react-hooks/exhaustive-deps
             date = formatDate();
-            // props.onChangeDate(date);
             navigate(`/${date}`);
             // return;
         }
@@ -62,7 +60,7 @@ export default function EintragDetail(props: { onChangeDate: (value: string) => 
         window.scrollTo(0, 0)
 
         getEintrag();
-    }, [cookies, navigate, props, date]);
+    }, [cookies, navigate, date]);
 
 
     async function onChangeDate(value: Moment | null) {
@@ -71,12 +69,10 @@ export default function EintragDetail(props: { onChangeDate: (value: string) => 
         }
         eintrag.datum = formatDate(value);
         navigate(`/${eintrag.datum}`);
-        props.onChangeDate(eintrag.datum);
     }
 
     async function onEditEintrag(value: Eintrag) {
         setEintrag(value);
-        props.onChangeDate(value.datum);
         try {
             await EintragService.eintragPostEintrag({ requestBody: eintrag });
         } catch (e) {
@@ -87,7 +83,6 @@ export default function EintragDetail(props: { onChangeDate: (value: string) => 
     async function onDeleteEintrag(value: string) {
         try {
             await EintragService.eintragDeleteEintrag({ date: value })
-            props.onDeleteEintrag();
             navigate('/');
         } catch (e) {
             errors.push(`${e}`);

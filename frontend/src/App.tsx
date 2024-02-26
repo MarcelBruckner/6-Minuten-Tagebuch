@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Container, ThemeProvider } from '@mui/material';
 import { OpenAPI } from './client';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import SignIn from './routes/SignIn';
 import BottomNav from './components/BottomNav';
@@ -19,7 +19,6 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DARK_THEME, LIGHT_THEME } from './common/Themes';
 
 export default function App() {
-  const [bottomNavValue, setBottomNavValue] = useState('home');
   const [cookies] = useCookies(['sechs_minuten_tagebuch_backend_url', 'sechs_minuten_tagebuch_dark_theme'])
   const [darkTheme, setDarkTheme] = useState<boolean>(cookies.sechs_minuten_tagebuch_dark_theme);
 
@@ -36,13 +35,13 @@ export default function App() {
           <Container component="main" maxWidth="md">
             <Routes>
               <Route path="/" element={<Home />} /> :
-              <Route path="/signin" element={<SignIn signin={true} onSignIn={() => setBottomNavValue('home')} />} />
-              <Route path="/signup" element={<SignIn signin={false} onSignIn={() => setBottomNavValue('home')} />} />
-              <Route path="/settings" element={<Settings onEditSettings={() => setBottomNavValue('settings')} darkTheme={darkTheme} setDarkTheme={setDarkTheme} />} />
-              <Route path="/:date" element={<EintragDetail onChangeDate={setBottomNavValue} onDeleteEintrag={() => setBottomNavValue('home')} />} />
+              <Route path="/signin" element={<SignIn signin={true} />} />
+              <Route path="/signup" element={<SignIn signin={false} />} />
+              <Route path="/settings" element={<Settings darkTheme={darkTheme} setDarkTheme={setDarkTheme} />} />
+              <Route path="/:date" element={<EintragDetail />} />
             </Routes>
           </Container>
-          <BottomNav value={bottomNavValue} setValue={setBottomNavValue} />
+          <BottomNav />
         </LocalizationProvider>
       </ThemeProvider>
     </BrowserRouter>

@@ -35,11 +35,11 @@ export class EintragService {
      * @throws ApiError
      */
     public static eintragGetEintraegeInDateRange({
-        startDate = '1970-01-01',
-        endDate = '2024-02-23',
+        startDate,
+        endDate,
     }: {
-        startDate?: string,
-        endDate?: string,
+        startDate?: (string | null),
+        endDate?: (string | null),
     }): CancelablePromise<Array<Eintrag>> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -61,7 +61,7 @@ export class EintragService {
      */
     public static eintragGetLastEintraege({
         number = 5,
-        endDate = '2024-02-23',
+        endDate = '2024-02-26',
     }: {
         number?: number,
         endDate?: string,
