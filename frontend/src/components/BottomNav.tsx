@@ -48,7 +48,7 @@ export default function BottomNav() {
             navigate(`/daily/${formatDate(date)}`);
         };
 
-        return <Dialog open={isDialogOpen}>
+        return <Dialog open={isDialogOpen} fullScreen>
             <DialogTitle>Neuer Eintrag</DialogTitle>
             <DialogContent>
                 {!isDate(pathname) &&
