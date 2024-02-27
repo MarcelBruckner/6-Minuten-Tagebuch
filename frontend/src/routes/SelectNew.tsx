@@ -21,7 +21,7 @@ export default function SelectNew() {
     }
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
     })
 
     return <Box textAlign='center' alignContent='center' sx={{ mb: 12 }}>
