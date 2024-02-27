@@ -1,23 +1,24 @@
 import moment, { Moment } from "moment";
 
-export function formatDate(date: Date | undefined | Moment = undefined) {
+export function formatDate(date: Date | undefined | Moment | string = undefined) {
+  return parseDate(date).format("YYYY-MM-DD");
+}
+
+export function formatWeek(date: Date | undefined | Moment | string = undefined) {
+  return parseDate(date).format("YYYY-WW");
+}
+
+export function parseDate(date: string | Date | undefined | Moment) {
   if (!date) {
     date = new Date();
   }
   if (date instanceof Date) {
     date = moment(date);
   }
-  return date.format("YYYY-MM-DD");
-}
-
-export function parseDate(date: string | Date) {
-  if (!isDate(date)) {
-    return undefined;
+  if (typeof date === "string") {
+    date = moment(date, "YYYY-MM-DD");
   }
-  if (date instanceof Date) {
-    return date;
-  }
-  return moment(date, "YYYY-MM-DD").toDate();
+  return date;
 }
 
 export function isDate(date: string | Date) {

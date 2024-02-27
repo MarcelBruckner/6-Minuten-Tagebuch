@@ -2,24 +2,24 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { Eintrag } from '../models/Eintrag';
+import type { Daily } from '../models/Daily';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
 import { request as __request } from '../core/request';
-export class EintragService {
+export class DailyService {
     /**
-     * Get Eintrag
-     * @returns Eintrag Successful Response
+     * Get Daily
+     * @returns Daily Successful Response
      * @throws ApiError
      */
-    public static eintragGetEintrag({
+    public static dailyGetDaily({
         datum,
     }: {
         datum: string,
-    }): CancelablePromise<Eintrag> {
+    }): CancelablePromise<Daily> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/eintrag/{datum}',
+            url: '/daily/{datum}',
             path: {
                 'datum': datum,
             },
@@ -30,20 +30,20 @@ export class EintragService {
         });
     }
     /**
-     * Get Eintraege In Date Range
-     * @returns Eintrag Successful Response
+     * Get Dailies In Date Range
+     * @returns Daily Successful Response
      * @throws ApiError
      */
-    public static eintragGetEintraegeInDateRange({
+    public static dailyGetDailiesInDateRange({
         startDate,
         endDate,
     }: {
         startDate?: (string | null),
         endDate?: (string | null),
-    }): CancelablePromise<Array<Eintrag>> {
+    }): CancelablePromise<Array<Daily>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/eintrag/range/',
+            url: '/daily/range/',
             query: {
                 'start_date': startDate,
                 'end_date': endDate,
@@ -55,20 +55,20 @@ export class EintragService {
         });
     }
     /**
-     * Get Last Eintraege
-     * @returns Eintrag Successful Response
+     * Get Last Dailies
+     * @returns Daily Successful Response
      * @throws ApiError
      */
-    public static eintragGetLastEintraege({
+    public static dailyGetLastDailies({
         number = 5,
-        endDate = '2024-02-26',
+        endDate = '2024-02-27',
     }: {
         number?: number,
         endDate?: string,
-    }): CancelablePromise<Array<Eintrag>> {
+    }): CancelablePromise<Array<Daily>> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/eintrag/last/',
+            url: '/daily/last/',
             query: {
                 'number': number,
                 'end_date': endDate,
@@ -80,18 +80,18 @@ export class EintragService {
         });
     }
     /**
-     * Post Eintrag
+     * Post Daily
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static eintragPostEintrag({
+    public static dailyPostDaily({
         requestBody,
     }: {
-        requestBody: (Eintrag | string),
+        requestBody: (Daily | string),
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/eintrag/',
+            url: '/daily/',
             body: requestBody,
             mediaType: 'application/json',
             errors: {
@@ -101,18 +101,18 @@ export class EintragService {
         });
     }
     /**
-     * Delete Eintrag
+     * Delete Daily
      * @returns any Successful Response
      * @throws ApiError
      */
-    public static eintragDeleteEintrag({
+    public static dailyDeleteDaily({
         date,
     }: {
         date: string,
     }): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/eintrag/{date}',
+            url: '/daily/{date}',
             path: {
                 'date': date,
             },

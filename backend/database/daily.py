@@ -5,12 +5,12 @@ import shutil
 from typing import List
 from common.constants import DATE_FORMAT
 from common.environment import get_data_path
-from models.eintrag import Eintrag
+from models.daily import Daily
 from models.user import User
 
 
 def _get_path(user: User, datum: datetime.date | None = None) -> pathlib.Path:
-    base = pathlib.Path(get_data_path(), user.username)
+    base = pathlib.Path(get_data_path(), user.username, 'daily')
     if datum == None:
         return base
     if datum:
@@ -18,39 +18,39 @@ def _get_path(user: User, datum: datetime.date | None = None) -> pathlib.Path:
     return pathlib.Path(base)
 
 
-def exists_eintrag(user: User, datum: datetime.date) -> bool:
+def exists_daily(user: User, datum: datetime.date) -> bool:
     return _get_path(user, datum).exists()
 
 
-def write_eintrag(user: User, eintrag: Eintrag):
-    path = _get_path(user, eintrag.datum)
+def write_daily(user: User, daily: Daily):
+    path = _get_path(user, daily.datum)
     path.parent.mkdir(exist_ok=True, parents=True)
-    json_data = eintrag.model_dump_json(indent=2)
+    json_data = daily.model_dump_json(indent=2)
     path.write_text(json_data, encoding='utf-8')
 
-    if not exists_eintrag(user, eintrag.datum):
+    if not exists_daily(user, daily.datum):
         raise FileNotFoundError(f"Couln't write entry "
-                                f"{eintrag.datum} for {user.username}")
+                                f"{daily.datum} for {user.username}")
 
 
-def write_eintraege(user: User, eintraege: List[Eintrag]):
-    for eintrag in eintraege:
-        write_eintrag(user, eintrag)
+def write_dailies(user: User, dailies: List[Daily]):
+    for daily in dailies:
+        write_daily(user, daily)
 
 
-def read_eintrag(user: User, datum: datetime.date) -> Eintrag | None:
-    if not exists_eintrag(user, datum):
+def read_daily(user: User, datum: datetime.date) -> Daily | None:
+    if not exists_daily(user, datum):
         return None
 
     path = _get_path(user, datum)
-    eintrag = Eintrag(**json.loads(path.read_text(encoding='utf-8')))
-    return eintrag
+    daily = Daily(**json.loads(path.read_text(encoding='utf-8')))
+    return daily
 
 
-def read_eintraege(user: User, start_date: datetime.date = None, end_date: datetime.date = None) -> Eintrag:
-    eintraege = []
+def read_dailies(user: User, start_date: datetime.date = None, end_date: datetime.date = None) -> Daily:
+    dailies = []
     path = _get_path(user)
-    eintraege_paths = list(path.glob('*.json'))
+    dailies_paths = list(path.glob('*.json'))
 
     if not start_date and end_date:
         def filter_lambda(path): return datetime.datetime.strptime(
@@ -64,36 +64,36 @@ def read_eintraege(user: User, start_date: datetime.date = None, end_date: datet
     else:
         def filter_lambda(path): return True
 
-    relevante_paths = list(filter(filter_lambda, eintraege_paths))
+    relevante_paths = list(filter(filter_lambda, dailies_paths))
 
-    eintraege = list(map(lambda path: Eintrag(
-                         ** json.loads(path.read_text(encoding='utf-8'))), relevante_paths))
-    return eintraege
+    dailies = list(map(lambda path: Daily(
+        ** json.loads(path.read_text(encoding='utf-8'))), relevante_paths))
+    return dailies
 
 
-def read_last_eintraege(user: User, number: int = 10, end_date: datetime.date = None) -> Eintrag:
+def read_last_dailies(user: User, number: int = 10, end_date: datetime.date = None) -> Daily:
     if number <= 0:
         return []
-    eintraege = []
+    dailies = []
     path = _get_path(user)
-    eintraege_paths = list(path.glob('*.json'))
+    dailies_paths = list(path.glob('*.json'))
 
     if end_date == None:
         end_date = datetime.date.today()
 
     relevante_paths = list(filter(lambda path: datetime.datetime.strptime(
-        path.stem, DATE_FORMAT).date() <= end_date, eintraege_paths))
+        path.stem, DATE_FORMAT).date() <= end_date, dailies_paths))
     relevante_paths = relevante_paths[-number:]
 
-    eintraege = list(map(lambda path: Eintrag(
-                         ** json.loads(path.read_text(encoding='utf-8'))), relevante_paths))
-    return eintraege
+    dailies = list(map(lambda path: Daily(
+        ** json.loads(path.read_text(encoding='utf-8'))), relevante_paths))
+    return dailies
 
 
-def delete_eintrag(user: User, datum: datetime.date) -> bool:
+def delete_daily(user: User, datum: datetime.date) -> bool:
     path = _get_path(user, datum)
     path.unlink()
-    if exists_eintrag(user, datum):
+    if exists_daily(user, datum):
         raise FileNotFoundError(f"Couln't delete entry "
                                 f"{datum} for {user.username}")
 

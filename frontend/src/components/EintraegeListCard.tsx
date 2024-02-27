@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -8,16 +7,15 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import Edit from '@mui/icons-material/Edit';
-import { SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG, TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE, ICH_BIN_DANKBAR_FUER, WAS_HABE_ICH_HEUTE_GUTES_GETAN, POSITIVE_SELBSTBEKRAEFTIGUNG, WAS_HABE_ICH_HEUTE_GELERNT } from "../strings/Eintrag";
-import { Eintrag } from '../client';
+import { SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG, TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE, ICH_BIN_DANKBAR_FUER, WAS_HABE_ICH_HEUTE_GUTES_GETAN, POSITIVE_SELBSTBEKRAEFTIGUNG, WAS_HABE_ICH_HEUTE_GELERNT, NOTIZEN } from "../strings/Daily";
+import { Daily } from '../client';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-
-export default function EintraegeListCard(props: { eintrag: Eintrag }) {
+export default function EintraegeListCard(props: { Daily: Daily }) {
     const navigate = useNavigate();
 
-    function EintragRow(props: { heading: string, values: Array<string> | string | undefined, italic?: boolean }) {
+    function DailyRow(props: { heading: string, values: Array<string> | string | undefined, italic?: boolean }) {
         if (!props.values) {
             return <Box></Box>;
         }
@@ -43,15 +41,16 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
         </Box>
     }
 
-    function EintragCard(props: { eintrag: Eintrag }) {
+    function DailyCard(props: { Daily: Daily }) {
         return <Box>
-            <EintragRow heading={ICH_BIN_DANKBAR_FUER} values={props.eintrag.ich_bin_dankbar_fuer} />
-            <EintragRow heading={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} values={props.eintrag.so_sorge_ich_fuer_einen_guten_tag} />
-            <EintragRow heading={POSITIVE_SELBSTBEKRAEFTIGUNG} values={props.eintrag.positive_selbstbekraeftigung} />
-            <EintragRow heading="" values={props.eintrag.spruch} italic />
-            <EintragRow heading={WAS_HABE_ICH_HEUTE_GUTES_GETAN} values={props.eintrag.was_habe_ich_heute_gutes_getan} />
-            <EintragRow heading={WAS_HABE_ICH_HEUTE_GELERNT} values={props.eintrag.was_habe_ich_heute_gelernt} />
-            <EintragRow heading={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} values={props.eintrag.tolle_dinge_die_ich_heute_erlebt_habe} />
+            <DailyRow heading={ICH_BIN_DANKBAR_FUER} values={props.Daily.ich_bin_dankbar_fuer} />
+            <DailyRow heading={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} values={props.Daily.so_sorge_ich_fuer_einen_guten_tag} />
+            <DailyRow heading={POSITIVE_SELBSTBEKRAEFTIGUNG} values={props.Daily.positive_selbstbekraeftigung} />
+            <DailyRow heading="" values={props.Daily.spruch} italic />
+            <DailyRow heading={WAS_HABE_ICH_HEUTE_GUTES_GETAN} values={props.Daily.was_habe_ich_heute_gutes_getan} />
+            <DailyRow heading={WAS_HABE_ICH_HEUTE_GELERNT} values={props.Daily.was_habe_ich_heute_gelernt} />
+            <DailyRow heading={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} values={props.Daily.tolle_dinge_die_ich_heute_erlebt_habe} />
+            <DailyRow heading={NOTIZEN} values={props.Daily.notizen} />
         </Box>
     }
 
@@ -62,10 +61,10 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
     return (
         <Card sx={{ mb: 2 }}>
             <CardHeader
-                title={props.eintrag.datum}
+                title={props.Daily.datum}
             />
             <CardContent>
-                <EintragCard eintrag={props.eintrag}></EintragCard>
+                <DailyCard Daily={props.Daily}></DailyCard>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" disabled>
@@ -74,7 +73,7 @@ export default function EintraegeListCard(props: { eintrag: Eintrag }) {
                 <IconButton aria-label="share" disabled>
                     <ShareIcon />
                 </IconButton>
-                <IconButton aria-label="share" sx={{ ml: 'auto' }} id={`${props.eintrag.datum}-edit`} onClick={() => onEdit(props.eintrag.datum)} >
+                <IconButton aria-label="share" sx={{ ml: 'auto' }} id={`${props.Daily.datum}-edit`} onClick={() => onEdit(props.Daily.datum)} >
                     <Edit />
                 </IconButton>
             </CardActions>

@@ -1,7 +1,7 @@
 import pathlib
 import shutil
 import pytest
-from database.eintrag import read_eintraege
+from database.daily import read_dailies
 from database.user import delete_user, exists_user, read_user, write_users, get_database_path
 
 from utils import TEST_USER, TEST_USERS_IN_DB, set_data_path

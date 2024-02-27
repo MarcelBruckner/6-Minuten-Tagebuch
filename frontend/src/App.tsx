@@ -10,7 +10,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './routes/Home';
 import SignIn from './routes/SignIn';
 import BottomNav from './components/BottomNav';
-import EintragDetail from './routes/Eintrag';
 import { useEffect, useState } from 'react';
 import Settings from './routes/Settings';
 import { useCookies } from 'react-cookie';
@@ -18,6 +17,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DARK_THEME, LIGHT_THEME } from './common/Themes';
 import 'moment/locale/de';
+import SelectNew from './routes/SelectNew';
+import Weekly from './routes/Weekly';
+import DailyComponent from './routes/Daily';
 
 
 export default function App() {
@@ -34,13 +36,15 @@ export default function App() {
       <ThemeProvider theme={darkTheme ? DARK_THEME : LIGHT_THEME}>
         <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale="de" >
           <CssBaseline />
-          <Container component="main" maxWidth="md">
+          <Container component="main" maxWidth="md" sx={{ mt: 2, mb: 10 }}>
             <Routes>
               <Route path="/" element={<Home />} /> :
               <Route path="/signin" element={<SignIn signin={true} />} />
               <Route path="/signup" element={<SignIn signin={false} />} />
+              <Route path="/new" element={<SelectNew />} /> :
+              <Route path="/daily/:date" element={<DailyComponent />} />
+              <Route path="/weekly/:week" element={<Weekly />} />
               <Route path="/settings" element={<Settings darkTheme={darkTheme} setDarkTheme={setDarkTheme} />} />
-              <Route path="/daily/:date" element={<EintragDetail />} />
             </Routes>
           </Container>
           <BottomNav />

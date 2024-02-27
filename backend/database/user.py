@@ -3,7 +3,7 @@ import sqlite3
 from typing import List
 
 from common.environment import get_data_path
-from database.eintrag import delete_user_data
+from database.daily import delete_user_data
 from models.user import UserInDB
 
 

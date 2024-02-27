@@ -5,3 +5,5 @@ export const POSITIVE_SELBSTBEKRAEFTIGUNG = "Positive Selbstbekräftigung";
 export const WAS_HABE_ICH_HEUTE_GUTES_GETAN = "Was habe ich heute gutes für jemanden oder für mich getan?";
 export const WAS_HABE_ICH_HEUTE_GELERNT = "Was habe ich heute gelernt?";
 export const TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE = "Tolle Dinge, die ich heute erlebt habe...";
+
+export const NOTIZEN = "Notizen";

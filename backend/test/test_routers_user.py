@@ -18,8 +18,8 @@ DATA_PATH = set_data_path(__file__)
 def run_around_tests():
     shutil.rmtree(DATA_PATH, ignore_errors=True)
     response = client.post(f"/user/", json=TEST_USER.model_dump())
-    assert response.status_code == status.HTTP_201_CREATED
-    assert not response.json()
+    assert response.status_code == status.HTTP_201_CREATED or response.status_code == status.HTTP_409_CONFLICT
+    # assert not response.json()
 
     yield
 

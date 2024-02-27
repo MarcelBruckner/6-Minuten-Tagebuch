@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 
-from routers import user, eintrag, auth
+from routers import user, daily, auth, weekly
 
 
 def custom_generate_unique_id(route: APIRoute):
@@ -17,7 +17,8 @@ app = FastAPI(
 
 app.include_router(auth.router)
 app.include_router(user.router)
-app.include_router(eintrag.router)
+app.include_router(daily.router)
+app.include_router(weekly.router)
 
 origins = ["*"]
 app.add_middleware(

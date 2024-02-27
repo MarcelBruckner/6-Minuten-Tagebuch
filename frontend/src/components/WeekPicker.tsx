@@ -2,7 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 
 interface CustomPickerDayProps extends PickersDayProps<Moment> {
     isSelected: boolean;
@@ -65,22 +65,20 @@ function Day(
     );
 }
 
-export default function WeekPicker() {
+export default function WeekPicker(props: { value: Moment, setValue: (value: Moment) => void }) {
     const [hoveredDay, setHoveredDay] = React.useState<Moment | null>(null);
-    const [value, setValue] = React.useState<Moment | null>(moment('2022-04-17'));
 
     return (
         <DateCalendar
-            value={value}
-            onChange={(newValue) => setValue(newValue)}
+            value={props.value}
+            onChange={(newValue) => props.setValue(newValue)}
             showDaysOutsideCurrentMonth
             displayWeekNumber
-
             slots={{ day: Day }}
             slotProps={{
                 day: (ownerState) =>
                 ({
-                    selectedDay: value,
+                    selectedDay: props.value,
                     hoveredDay,
                     onPointerEnter: () => setHoveredDay(ownerState.day),
                     onPointerLeave: () => setHoveredDay(null),
