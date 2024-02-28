@@ -1,61 +1,47 @@
 import { useEffect, useState } from "react";
-import { Daily, DailyService, OpenAPI } from "../client";
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
-import { formatDate } from "../common/Helpers";
-import { Alert, Card, CardActions, CardContent, IconButton, IconButtonProps, styled } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
-import moment, { Moment } from "moment";
-import DailyEditor from "../components/DailyEditor";
-import { Delete, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+import { Alert, Card, CardActions, CardContent, IconButton } from "@mui/material";
+import { Check, Delete } from "@mui/icons-material";
+import ExpandMoreButton from "../components/ExpandMoreButton";
+import { OpenAPI, Weekly, WeeklyService } from "../client";
+import WeeklyEditor from "../components/WeeklyEditor";
+import { weekToDate } from "../common/Helpers";
 
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
 
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
-export default function Weekly() {
+export default function WeeklyComponent() {
     const [cookies] = useCookies(['sechs_minuten_tagebuch_token'])
     const navigate = useNavigate();
     let { week } = useParams();
     const [errors, setErrors] = useState<Array<string>>([])
     const [expanded, setExpanded] = useState(false);
 
-    const [Daily, setDaily] = useState<Daily>({
-        datum: week!,
-        ich_bin_dankbar_fuer: ["", "", ""],
-        so_sorge_ich_fuer_einen_guten_tag: "",
-        positive_selbstbekraeftigung: "",
-        spruch: "",
-        was_habe_ich_heute_gutes_getan: "",
-        was_habe_ich_heute_gelernt: "",
-        tolle_dinge_die_ich_heute_erlebt_habe: ["", "", ""],
-        notizen: ""
+    const [weekly, setWeekly] = useState<Weekly>({
+        woche: week!,
+        notizen: "",
+        wochenreflexion: {
+            meine_highlights_und_erfolge_der_woche: "",
+            skala_wie_glücklich: 1,
+            text_wie_glücklich: ""
+        },
+        wochenplanung: {
+            darauf_freue_ich_mich: "",
+            so_sorge_ich_fuer_eine_gute_woche: {
+                berufsleben: "",
+                privatleben: ""
+            }
+        }
     });
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
-    async function getDaily() {
+    async function getWeekly() {
         setErrors([]);
         try {
-            const DailyOnServer = await DailyService.dailyGetDaily({ datum: week! });
-            setDaily(DailyOnServer);
+            const weeklyOnServer = await WeeklyService.weeklyGetWeekly({ datum: weekToDate(week) });
+            setWeekly(weeklyOnServer);
         } catch (e) {
             try {
-                const DailyOnServer = await DailyService.dailyPostDaily({ requestBody: Daily.datum! });
-                setDaily(DailyOnServer);
+                const weeklyOnServer = await WeeklyService.weeklyPostWeekly({ requestBody: weekToDate(week) });
+                setWeekly(weeklyOnServer);
             } catch (e) {
                 errors.push(`${e}`);
             }
@@ -69,39 +55,22 @@ export default function Weekly() {
         }
         OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
-        if (!week) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            week = formatDate();
-            navigate(`/${week}`);
-            // return;
-        }
-        // props.onChangeDate(date);
-        window.scrollTo(0, 0)
+        getWeekly();
+        // eslint-disable-next-line
+    }, []);
 
-        getDaily();
-    }, [cookies, navigate, week]);
-
-
-    async function onChangeDate(value: Moment | null) {
-        if (!value) {
-            return;
-        }
-        Daily.datum = formatDate(value);
-        navigate(`/daily/${Daily.datum}`);
-    }
-
-    async function onEditDaily(value: Daily) {
-        setDaily(value);
+    async function onEditWeekly(value: Weekly) {
+        setWeekly(value);
         try {
-            await DailyService.dailyPostDaily({ requestBody: Daily });
+            await WeeklyService.weeklyPostWeekly({ requestBody: weekly });
         } catch (e) {
             errors.push(`${e}`);
         }
     }
 
-    async function onDeleteDaily(value: string) {
+    async function onDeleteWeekly(value: string) {
         try {
-            await DailyService.dailyDeleteDaily({ date: value })
+            await WeeklyService.weeklyDeleteWeekly({ date: value })
             navigate('/');
         } catch (e) {
             errors.push(`${e}`);
@@ -110,17 +79,17 @@ export default function Weekly() {
 
     return <Card>
         <CardContent >
-            <DatePicker value={moment(Daily.datum)} onChange={onChangeDate} sx={{ mb: 2 }} />
             {errors.map((e) => <Alert severity="error">{e}</Alert>)}
-            <DailyEditor daily={Daily} onEditDaily={onEditDaily} expanded={expanded}></DailyEditor>
+            <WeeklyEditor weekly={weekly} onEditWeekly={onEditWeekly} expanded={expanded}></WeeklyEditor>
 
             <CardActions disableSpacing>
-                <IconButton aria-label="share" sx={{ ml: 'auto' }} onClick={() => onDeleteDaily(Daily.datum)} >
+                <IconButton aria-label="share" sx={{}} onClick={() => onDeleteWeekly(weekly.woche)} >
                     <Delete />
                 </IconButton>
-                <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-                    <ExpandMoreIcon />
-                </ExpandMore>
+                <ExpandMoreButton expanded={expanded} handleExpandClick={() => setExpanded(!expanded)} />
+                <IconButton aria-label="share" sx={{ ml: 'auto' }} onClick={() => navigate('/')} >
+                    <Check />
+                </IconButton>
             </CardActions>
         </CardContent>
     </Card >

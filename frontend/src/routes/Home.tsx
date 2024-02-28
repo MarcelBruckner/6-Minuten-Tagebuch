@@ -30,8 +30,8 @@ export default function Home() {
 
     return <>
         {
-            eintraege.map((Daily) =>
-                <EintraegeListCard Daily={Daily} />
+            eintraege.map((daily) =>
+                <EintraegeListCard Daily={daily} key={daily.datum} />
             )
         }
     </>

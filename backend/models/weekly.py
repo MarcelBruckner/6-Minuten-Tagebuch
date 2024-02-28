@@ -11,7 +11,7 @@ class Weekly(BaseModel):
 
     class Wochenreflexion(BaseModel):
         meine_highlights_und_erfolge_der_woche: str = ""
-        skale_wie_glücklich: int = 0
+        skala_wie_glücklich: int = 1
         text_wie_glücklich: str = ""
 
     class Wochenplanung(BaseModel):
@@ -24,6 +24,8 @@ class Weekly(BaseModel):
         darauf_freue_ich_mich: str = ""
 
     wochenreflexion: Wochenreflexion = Wochenreflexion(
-        meine_highlights_und_erfolge_der_woche="", skale_wie_glücklich=0, text_wie_glücklich="")
+        meine_highlights_und_erfolge_der_woche="", skala_wie_glücklich=0, text_wie_glücklich="")
     wochenplanung: Wochenplanung = Wochenplanung(so_sorge_ich_fuer_eine_gute_woche=Wochenplanung.SoSorgeIchFuerEineGuteWoche(
         berufsleben="", privatleben=""), darauf_freue_ich_mich="")
+
+    notizen: str = ""

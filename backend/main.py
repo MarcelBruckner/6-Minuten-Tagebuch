@@ -13,7 +13,8 @@ def custom_generate_unique_id(route: APIRoute):
 
 app = FastAPI(
     title="6-Minuten Tagebuch",
-    generate_unique_id_function=custom_generate_unique_id)
+    generate_unique_id_function=custom_generate_unique_id,
+    separate_input_output_schemas=False)
 
 app.include_router(auth.router)
 app.include_router(user.router)

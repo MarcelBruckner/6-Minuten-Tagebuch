@@ -3,26 +3,12 @@ import { Daily, DailyService, OpenAPI } from "../client";
 import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatDate } from "../common/Helpers";
-import { Alert, Card, CardActions, CardContent, IconButton, IconButtonProps, styled } from "@mui/material";
+import { Alert, Card, CardActions, CardContent, IconButton } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import moment, { Moment } from "moment";
 import DailyEditor from "../components/DailyEditor";
-import { Delete, ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
-
-interface ExpandMoreProps extends IconButtonProps {
-    expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
+import { Check, Delete } from "@mui/icons-material";
+import ExpandMoreButton from "../components/ExpandMoreButton";
 
 export default function DailyComponent() {
     const [cookies] = useCookies(['sechs_minuten_tagebuch_token'])
@@ -30,7 +16,7 @@ export default function DailyComponent() {
     let { date } = useParams();
     const [errors, setErrors] = useState<Array<string>>([])
     const [expanded, setExpanded] = useState(false);
-    const [Daily, setDaily] = useState<Daily>({
+    const [daily, setDaily] = useState<Daily>({
         datum: date!,
         ich_bin_dankbar_fuer: ["", "", ""],
         so_sorge_ich_fuer_einen_guten_tag: "",
@@ -42,19 +28,15 @@ export default function DailyComponent() {
         notizen: ""
     });
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
     async function getDaily() {
         setErrors([]);
         try {
-            const DailyOnServer = await DailyService.dailyGetDaily({ datum: date! });
-            setDaily(DailyOnServer);
+            const dailyOnServer = await DailyService.dailyGetDaily({ datum: date! });
+            setDaily(dailyOnServer);
         } catch (e) {
             try {
-                const DailyOnServer = await DailyService.dailyPostDaily({ requestBody: Daily.datum! });
-                setDaily(DailyOnServer);
+                const dailyOnServer = await DailyService.dailyPostDaily({ requestBody: daily.datum! });
+                setDaily(dailyOnServer);
             } catch (e) {
                 errors.push(`${e}`);
             }
@@ -68,31 +50,23 @@ export default function DailyComponent() {
         }
         OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
-        if (!date) {
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-            date = formatDate();
-            navigate(`/${date}`);
-            // return;
-        }
-        // props.onChangeDate(date);
-        window.scrollTo(0, 0)
-
         getDaily();
-    }, [cookies, navigate, date]);
+        // eslint-disable-next-line
+    }, []);
 
 
     async function onChangeDate(value: Moment | null) {
         if (!value) {
             return;
         }
-        Daily.datum = formatDate(value);
-        navigate(`/daily/${Daily.datum}`);
+        daily.datum = formatDate(value);
+        navigate(`/daily/${daily.datum}`);
     }
 
     async function onEditDaily(value: Daily) {
         setDaily(value);
         try {
-            await DailyService.dailyPostDaily({ requestBody: Daily });
+            await DailyService.dailyPostDaily({ requestBody: daily });
         } catch (e) {
             errors.push(`${e}`);
         }
@@ -109,17 +83,18 @@ export default function DailyComponent() {
 
     return <Card>
         <CardContent >
-            <DatePicker value={moment(Daily.datum)} onChange={onChangeDate} sx={{ mb: 2 }} />
+            <DatePicker value={moment(daily.datum)} onChange={onChangeDate} sx={{ mb: 2 }} />
             {errors.map((e) => <Alert severity="error">{e}</Alert>)}
-            <DailyEditor daily={Daily} onEditDaily={onEditDaily} expanded={expanded}></DailyEditor>
+            <DailyEditor daily={daily} onEditDaily={onEditDaily} expanded={expanded}></DailyEditor>
 
             <CardActions disableSpacing>
-                <IconButton aria-label="share" sx={{ ml: 'auto' }} onClick={() => onDeleteDaily(Daily.datum)} >
+                <IconButton aria-label="share" sx={{}} onClick={() => onDeleteDaily(daily.datum)} >
                     <Delete />
                 </IconButton>
-                <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-                    <ExpandMoreIcon />
-                </ExpandMore>
+                <ExpandMoreButton expanded={expanded} handleExpandClick={() => setExpanded(!expanded)} />
+                <IconButton aria-label="share" sx={{ ml: 'auto' }} onClick={() => navigate('/')} >
+                    <Check />
+                </IconButton>
             </CardActions>
         </CardContent>
     </Card >

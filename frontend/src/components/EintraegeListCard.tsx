@@ -25,32 +25,32 @@ export default function EintraegeListCard(props: { Daily: Daily }) {
         } else {
             const values = props.values.filter(String);
             if (!values.length) {
-                return <Box></Box>;
+                return <></>;
             }
-            content = <Box>
+            content = <>
                 {
-                    values.map((value, i) => <Box>{i + 1}. {value}</Box >)
+                    values.map((value, i) => <Box key={value}>{i + 1}. {value}</Box >)
                 }
-            </Box>
+            </>
         }
 
         let sx = props.italic ? { fontStyle: 'italic' } : {}
         return <Box sx={{ mb: 2 }}>
             <Typography sx={{ textTransform: 'uppercase' }} variant="body2" color="text.secondary" >{props.heading}</Typography>
-            <Typography sx={sx}>{content}</Typography>
+            <Typography sx={sx} component={'div'}>{content}</Typography>
         </Box>
     }
 
-    function DailyCard(props: { Daily: Daily }) {
-        return <Box>
-            <DailyRow heading={ICH_BIN_DANKBAR_FUER} values={props.Daily.ich_bin_dankbar_fuer} />
-            <DailyRow heading={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} values={props.Daily.so_sorge_ich_fuer_einen_guten_tag} />
-            <DailyRow heading={POSITIVE_SELBSTBEKRAEFTIGUNG} values={props.Daily.positive_selbstbekraeftigung} />
-            <DailyRow heading="" values={props.Daily.spruch} italic />
-            <DailyRow heading={WAS_HABE_ICH_HEUTE_GUTES_GETAN} values={props.Daily.was_habe_ich_heute_gutes_getan} />
-            <DailyRow heading={WAS_HABE_ICH_HEUTE_GELERNT} values={props.Daily.was_habe_ich_heute_gelernt} />
-            <DailyRow heading={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} values={props.Daily.tolle_dinge_die_ich_heute_erlebt_habe} />
-            <DailyRow heading={NOTIZEN} values={props.Daily.notizen} />
+    function DailyCard(props: { daily: Daily }) {
+        return <Box key={props.daily.datum}>
+            <DailyRow heading={ICH_BIN_DANKBAR_FUER} values={props.daily.ich_bin_dankbar_fuer} />
+            <DailyRow heading={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} values={props.daily.so_sorge_ich_fuer_einen_guten_tag} />
+            <DailyRow heading={POSITIVE_SELBSTBEKRAEFTIGUNG} values={props.daily.positive_selbstbekraeftigung} />
+            <DailyRow heading="" values={props.daily.spruch} italic />
+            <DailyRow heading={WAS_HABE_ICH_HEUTE_GUTES_GETAN} values={props.daily.was_habe_ich_heute_gutes_getan} />
+            <DailyRow heading={WAS_HABE_ICH_HEUTE_GELERNT} values={props.daily.was_habe_ich_heute_gelernt} />
+            <DailyRow heading={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} values={props.daily.tolle_dinge_die_ich_heute_erlebt_habe} />
+            <DailyRow heading={NOTIZEN} values={props.daily.notizen} />
         </Box>
     }
 
@@ -64,7 +64,7 @@ export default function EintraegeListCard(props: { Daily: Daily }) {
                 title={props.Daily.datum}
             />
             <CardContent>
-                <DailyCard Daily={props.Daily}></DailyCard>
+                <DailyCard daily={props.Daily}></DailyCard>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" disabled>

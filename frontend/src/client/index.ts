@@ -15,8 +15,7 @@ export type { Token } from './models/Token';
 export type { User } from './models/User';
 export type { UserIn } from './models/UserIn';
 export type { ValidationError } from './models/ValidationError';
-export type { Weekly_Input } from './models/Weekly_Input';
-export type { Weekly_Output } from './models/Weekly_Output';
+export type { Weekly } from './models/Weekly';
 export type { Wochenplanung } from './models/Wochenplanung';
 export type { Wochenreflexion } from './models/Wochenreflexion';
 

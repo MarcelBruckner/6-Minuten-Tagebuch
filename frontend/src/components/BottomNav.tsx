@@ -30,9 +30,10 @@ export default function BottomNav() {
         return <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
             <BottomNavigation value={pathname} onChange={handleChange}>
                 <BottomNavigationAction label="Home" value="" icon={<Home />} />
-                <BottomNavigationAction label="" value="new" icon={<StyledFab aria-label="add"><Add /></StyledFab>} />
+                <BottomNavigationAction label="" value="--this-is-a-dummy-value" disabled />
                 <BottomNavigationAction label="Settings" value="settings" icon={<Settings />} />
             </BottomNavigation>
+            <StyledFab aria-label="add" onClick={() => handleChange(undefined, 'new')}><Add /></StyledFab>
         </Paper>
     }
     return <></>

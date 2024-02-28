@@ -1,0 +1,23 @@
+import { IconButton, IconButtonProps, styled } from "@mui/material";
+import { ExpandMore as ExpandMoreIcon } from "@mui/icons-material";
+
+interface ExpandMoreProps extends IconButtonProps {
+    expand: boolean;
+}
+
+const ExpandMore = styled((props: ExpandMoreProps) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
+
+export default function ExpandMoreButton(props: { expanded: boolean, handleExpandClick: () => void }) {
+    return <ExpandMore expand={props.expanded} onClick={props.handleExpandClick} aria-expanded={props.expanded} aria-label="show more">
+        <ExpandMoreIcon />
+    </ExpandMore>
+}

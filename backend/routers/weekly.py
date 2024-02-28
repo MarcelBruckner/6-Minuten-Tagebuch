@@ -19,7 +19,7 @@ router = APIRouter(
 
 
 @router.get("/{datum}", response_model=Weekly)
-async def get_daily(datum: datetime.date, current_user: Annotated[User, Depends(auth.get_current_active_user)]):
+async def get_weekly(datum: datetime.date, current_user: Annotated[User, Depends(auth.get_current_active_user)]):
     weekly = weekly_db.read_weekly(current_user, datum)
     if not weekly:
         raise HTTPException(
@@ -45,7 +45,7 @@ async def get_last_weeklies(current_user: Annotated[User, Depends(auth.get_curre
 async def post_weekly(weekly_or_date: Weekly | datetime.date, current_user: Annotated[User, Depends(auth.get_current_active_user)]):
     weekly = weekly_or_date
     if type(weekly_or_date) == datetime.date:
-        weekly = Weekly(datum=weekly_or_date)
+        weekly = Weekly(woche=weekly_or_date)
     weekly_db.write_weekly(current_user, weekly)
     return weekly
 

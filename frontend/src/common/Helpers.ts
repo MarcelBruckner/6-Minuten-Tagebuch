@@ -27,3 +27,7 @@ export function isDate(date: string | Date) {
   }
   return moment(date, "YYYY-MM-DD").isValid();
 }
+
+export function weekToDate(date: Date | string | undefined) {
+  return formatDate(moment(date, "YYYY-WW"));
+}

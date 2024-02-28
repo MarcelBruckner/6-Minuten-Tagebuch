@@ -3,6 +3,7 @@ import MyMultipleLinesTextField from "./MyMultipleLinesTextField";
 import { SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG, TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE, ICH_BIN_DANKBAR_FUER, WAS_HABE_ICH_HEUTE_GUTES_GETAN, POSITIVE_SELBSTBEKRAEFTIGUNG, WAS_HABE_ICH_HEUTE_GELERNT, NOTIZEN } from "../strings/Daily";
 import { Card, CardContent, CardHeader, TextField, Typography } from "@mui/material";
 import { VARIANT } from "../strings/Constants";
+import SingleRowEntry from "./SingleRowEntry";
 
 
 export default function DailyEditor(props: { daily: Daily, onEditDaily: (daily: Daily) => void, expanded: boolean }) {
@@ -42,22 +43,6 @@ export default function DailyEditor(props: { daily: Daily, onEditDaily: (daily: 
         props.onEditDaily(props.daily);
     }
 
-    function DailyRowSingle(props: { title: string, value: string | undefined, helperText: string, multiline?: boolean }) {
-        return <Card sx={{ mb: 2 }}>
-            <CardHeader title={props.title} sx={{ textTransform: 'uppercase' }} />
-            <CardContent>
-                <TextField
-                    multiline={props.multiline}
-                    className="textfield"
-                    defaultValue={props.value}
-                    variant={VARIANT}
-                    helperText={props.helperText}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | undefined) => onMyTextFieldUpdated(props.title, e!.target.value)}
-                    title={props.title} />
-            </CardContent>
-        </Card>
-    }
-
     function DailyRowMulti(props: { title: string, values: Array<string> | undefined, helperText: string }) {
         return <Card sx={{ mb: 2 }}>
             <CardHeader title={props.title} sx={{ textTransform: 'uppercase' }} />
@@ -75,15 +60,15 @@ export default function DailyEditor(props: { daily: Daily, onEditDaily: (daily: 
 
     return <>
         <DailyRowMulti values={props.daily.ich_bin_dankbar_fuer} title={ICH_BIN_DANKBAR_FUER} helperText={ICH_BIN_DANKBAR_FUER} />
-        <DailyRowSingle title={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} value={props.daily.so_sorge_ich_fuer_einen_guten_tag} helperText={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} />
-        <DailyRowSingle title={POSITIVE_SELBSTBEKRAEFTIGUNG} value={props.daily.positive_selbstbekraeftigung} helperText={POSITIVE_SELBSTBEKRAEFTIGUNG} />
+        <SingleRowEntry title={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} value={props.daily.so_sorge_ich_fuer_einen_guten_tag} helperText={SO_SORGE_ICH_FUER_EINEN_GUTEN_TAG} onChange={onMyTextFieldUpdated} />
+        <SingleRowEntry title={POSITIVE_SELBSTBEKRAEFTIGUNG} value={props.daily.positive_selbstbekraeftigung} helperText={POSITIVE_SELBSTBEKRAEFTIGUNG} onChange={onMyTextFieldUpdated} />
 
         <Spruch value={props.daily.spruch} />
 
-        <DailyRowSingle title={WAS_HABE_ICH_HEUTE_GUTES_GETAN} value={props.daily.was_habe_ich_heute_gutes_getan} helperText={WAS_HABE_ICH_HEUTE_GUTES_GETAN} />
-        <DailyRowSingle title={WAS_HABE_ICH_HEUTE_GELERNT} value={props.daily.was_habe_ich_heute_gelernt} helperText={WAS_HABE_ICH_HEUTE_GELERNT} />
+        <SingleRowEntry title={WAS_HABE_ICH_HEUTE_GUTES_GETAN} value={props.daily.was_habe_ich_heute_gutes_getan} helperText={WAS_HABE_ICH_HEUTE_GUTES_GETAN} onChange={onMyTextFieldUpdated} />
+        <SingleRowEntry title={WAS_HABE_ICH_HEUTE_GELERNT} value={props.daily.was_habe_ich_heute_gelernt} helperText={WAS_HABE_ICH_HEUTE_GELERNT} onChange={onMyTextFieldUpdated} />
         <DailyRowMulti values={props.daily.tolle_dinge_die_ich_heute_erlebt_habe} title={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} helperText={TOLLE_DINGE_DIE_ICH_HEUTE_ERLEBT_HABE} />
 
-        {props.expanded && <DailyRowSingle title={NOTIZEN} value={props.daily.notizen} helperText={NOTIZEN} multiline />}
+        {props.expanded && <SingleRowEntry title={NOTIZEN} value={props.daily.notizen} helperText={NOTIZEN} multiline onChange={onMyTextFieldUpdated} />}
     </>
 }

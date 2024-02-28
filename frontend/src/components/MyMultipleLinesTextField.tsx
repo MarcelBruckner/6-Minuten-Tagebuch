@@ -19,17 +19,15 @@ export default function MyMultipleLinesTextField(props: { title: string, helperT
 
     return <>
         {values.map((x, i) =>
-            <div>
-                <TextField
-                    id={i + ""}
-                    className="textfield"
-                    label={(i + 1) + "."}
-                    key={x.value}
-                    defaultValue={x.value}
-                    variant={VARIANT}
-                    helperText={props.helperText}
-                    onChange={onChange} />
-            </div>
+            <TextField
+                id={i + ""}
+                className="textfield"
+                label={(i + 1) + "."}
+                key={x.uid}
+                defaultValue={x.value}
+                variant={VARIANT}
+                helperText={props.helperText}
+                onChange={onChange} />
         )
         }
     </>

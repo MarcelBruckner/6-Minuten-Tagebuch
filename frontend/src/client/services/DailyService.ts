@@ -61,7 +61,7 @@ export class DailyService {
      */
     public static dailyGetLastDailies({
         number = 5,
-        endDate = '2024-02-27',
+        endDate = '2024-02-28',
     }: {
         number?: number,
         endDate?: string,

@@ -43,9 +43,10 @@ TEST_WEEKLIES = [Weekly(
     ),
     wochenreflexion=Weekly.Wochenreflexion(
         meine_highlights_und_erfolge_der_woche=fake.sentence(),
-        skale_wie_glücklich=i,
+        skala_wie_glücklich=i,
         text_wie_glücklich=fake.sentence()
-    )) for i in range(10)]
+    ),
+    notizen=fake.sentence()) for i in range(10)]
 
 
 def get_auth_headers(username: str):

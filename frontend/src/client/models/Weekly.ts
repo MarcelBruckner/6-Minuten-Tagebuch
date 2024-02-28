@@ -4,9 +4,10 @@
 /* eslint-disable */
 import type { Wochenplanung } from './Wochenplanung';
 import type { Wochenreflexion } from './Wochenreflexion';
-export type Weekly_Input = {
+export type Weekly = {
     woche: string;
     wochenreflexion?: Wochenreflexion;
     wochenplanung?: Wochenplanung;
+    notizen?: string;
 };
 
