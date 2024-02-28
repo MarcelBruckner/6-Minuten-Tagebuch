@@ -55,6 +55,8 @@ export default function WeeklyComponent() {
         }
         OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
+        window.scrollTo(0, 0);
+
         getWeekly();
         // eslint-disable-next-line
     }, []);

@@ -50,6 +50,8 @@ export default function DailyComponent() {
         }
         OpenAPI.TOKEN = cookies.sechs_minuten_tagebuch_token;
 
+        window.scrollTo(0, 0);
+
         getDaily();
         // eslint-disable-next-line
     }, []);
