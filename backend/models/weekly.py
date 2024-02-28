@@ -11,7 +11,7 @@ class Weekly(BaseModel):
 
     class Wochenreflexion(BaseModel):
         meine_highlights_und_erfolge_der_woche: str = ""
-        skala_wie_glücklich: int = 1
+        skala_wie_glücklich: int = 0
         text_wie_glücklich: str = ""
 
     class Wochenplanung(BaseModel):

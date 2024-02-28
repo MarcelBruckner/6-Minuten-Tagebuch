@@ -16,12 +16,14 @@ export default function WeeklyComponent() {
     const [errors, setErrors] = useState<Array<string>>([])
     const [expanded, setExpanded] = useState(false);
 
+    week = weekToDate(week)
+
     const [weekly, setWeekly] = useState<Weekly>({
-        woche: week!,
+        woche: week,
         notizen: "",
         wochenreflexion: {
             meine_highlights_und_erfolge_der_woche: "",
-            skala_wie_glücklich: 1,
+            skala_wie_glücklich: 0,
             text_wie_glücklich: ""
         },
         wochenplanung: {
@@ -36,15 +38,10 @@ export default function WeeklyComponent() {
     async function getWeekly() {
         setErrors([]);
         try {
-            const weeklyOnServer = await WeeklyService.weeklyGetWeekly({ datum: weekToDate(week) });
+            const weeklyOnServer = await WeeklyService.weeklyGetWeekly({ datum: week! });
             setWeekly(weeklyOnServer);
         } catch (e) {
-            try {
-                const weeklyOnServer = await WeeklyService.weeklyPostWeekly({ requestBody: weekToDate(week) });
-                setWeekly(weeklyOnServer);
-            } catch (e) {
-                errors.push(`${e}`);
-            }
+            errors.push(`${e}`);
         }
     };
 

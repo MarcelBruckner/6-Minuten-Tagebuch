@@ -12,7 +12,7 @@ import { Daily } from '../client';
 import { Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function EintraegeListCard(props: { Daily: Daily }) {
+export default function EintraegeListDailyCard(props: { daily: Daily }) {
     const navigate = useNavigate();
 
     function DailyRow(props: { heading: string, values: Array<string> | string | undefined, italic?: boolean }) {
@@ -61,10 +61,10 @@ export default function EintraegeListCard(props: { Daily: Daily }) {
     return (
         <Card sx={{ mb: 2 }}>
             <CardHeader
-                title={props.Daily.datum}
+                title={props.daily.datum}
             />
             <CardContent>
-                <DailyCard daily={props.Daily}></DailyCard>
+                <DailyCard daily={props.daily}></DailyCard>
             </CardContent>
             <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites" disabled>
@@ -73,7 +73,7 @@ export default function EintraegeListCard(props: { Daily: Daily }) {
                 <IconButton aria-label="share" disabled>
                     <ShareIcon />
                 </IconButton>
-                <IconButton aria-label="share" sx={{ ml: 'auto' }} id={`${props.Daily.datum}-edit`} onClick={() => onEdit(props.Daily.datum)} >
+                <IconButton aria-label="share" sx={{ ml: 'auto' }} id={`${props.daily.datum}-edit`} onClick={() => onEdit(props.daily.datum)} >
                     <Edit />
                 </IconButton>
             </CardActions>
