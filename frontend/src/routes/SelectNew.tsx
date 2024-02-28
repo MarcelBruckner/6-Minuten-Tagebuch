@@ -22,7 +22,7 @@ export default function SelectNew() {
     return <Box textAlign='center' alignContent='center' sx={{ mb: 12 }}>
         <Card sx={{ mb: 2 }}>
             <CardHeader
-                title={"Neuer täglicher Eintrag"}
+                title={"Täglicher Eintrag"}
             />
             <CardContent>
                 <DateCalendar showDaysOutsideCurrentMonth defaultValue={date} onChange={onSelectDate} />
@@ -30,7 +30,7 @@ export default function SelectNew() {
         </Card>
         <Card >
             <CardHeader
-                title={"Neuer Wochenrückblick"}
+                title={"Wochenrückblick"}
             />
             <CardContent>
                 <WeekPicker value={week} setValue={onSelectWeek}></WeekPicker>
