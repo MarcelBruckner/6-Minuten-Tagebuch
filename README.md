@@ -84,7 +84,7 @@ nano .env
 docker compose up --build -d
 ```
 
-Nach der Installation ist das 6-Minuten Tagebuch erreichbar via: `http://localhost:62500`
+Nach der Installation ist das 6-Minuten Tagebuch erreichbar via: [`http://localhost:62500`](http://localhost:62500)
 
 ## Tech Stack
 
