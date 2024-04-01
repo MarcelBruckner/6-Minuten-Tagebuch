@@ -73,9 +73,12 @@ data/user
 
 ## Installation
 ```shell
-# Clone repository
+# Klone Repository
 https://github.com/MarcelBruckner/6-Minuten-Tagebuch.git
 cd 6-Minuten-Tagebuch
+
+# Anpassen der Environment Variablen
+nano .env
 
 # Build and run
 docker compose up --build -d
@@ -90,3 +93,9 @@ Frontend | Backend
 [React](https://react.dev/) | [FastAPI](https://fastapi.tiangolo.com/) 
 [React Router](https://reactrouter.com/en/main) |
 [React Material UI](https://mui.com/) |
+
+## License
+
+MIT License
+
+Copyright (c) 2024 Marcel Bruckner
