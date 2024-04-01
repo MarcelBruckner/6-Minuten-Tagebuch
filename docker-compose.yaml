@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   frontend:
     image: sechs-minuten-tagebuch/frontend
@@ -12,14 +10,6 @@ services:
       - 62500:80
     depends_on:
       - backend
-    networks:
-      nginx:
-    labels:
-      - homepage.group=Social
-      - homepage.name=6-Minuten Tagebuch
-      - homepage.icon=mdi-book
-      - homepage.href=https://6-minuten-tagebuch.marcelbruckner.info/
-      - homepage.description=Unser digitales 6-Minuten Tagebuch
 
   backend:
     image: sechs-minuten-tagebuch/backend
@@ -34,11 +24,4 @@ services:
     ports:
       - 62501:81
     volumes:
-      - ./data:/app/data
-    networks:
-      nginx:
-  
-
-networks:
-  nginx:
-    external: true
+      - ${DATA_PATH}:/app/data
