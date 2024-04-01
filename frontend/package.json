@@ -1,64 +1,27 @@
 {
-  "name": "frontend",
-  "version": "0.4.0",
+  "name": "sechs-minuten-tagebuch",
+  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.15.10",
-    "@mui/material": "^5.15.10",
-    "@mui/x-date-pickers": "^6.19.5",
-    "@openapitools/openapi-generator-cli": "^2.9.0",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@types/jest": "^27.5.2",
-    "@types/node": "^16.18.82",
-    "@types/random-seed": "^0.3.5",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "axios": "^1.6.7",
-    "cors": "^2.8.5",
-    "jwt-decode": "^4.0.0",
-    "moment": "^2.30.1",
-    "react": "^18.2.0",
-    "react-cookie": "^7.0.2",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.1",
-    "react-scripts": "^5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
-  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "generate-client-windows": "openapi --input http://localhost:4001/openapi.json --output .\\src\\client --client axios --useOptions --useUnionTypes",
-    "generate-client-linux": "openapi --input http://localhost:4001/openapi.json --output ./src/client --client axios --useOptions --useUnionTypes"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "dependencies": {
+    "react": "^18",
+    "react-dom": "^18",
+    "next": "14.1.4"
   },
   "devDependencies": {
-    "@types/uuid": "^9.0.8",
-    "openapi-typescript-codegen": "^0.27.0",
-    "uuid": "^9.0.1"
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
+    "postcss": "^8",
+    "tailwindcss": "^3.3.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.4"
   }
 }
