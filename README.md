@@ -8,39 +8,68 @@
 
 ## Was kann die digitiale Version?
 
-Die digitale Version besteht aus einer Übersichtsseite, einer Seite zur Auswahl der Eintragsart und jeweils einer Seite zum Bearbeiten von täglichen und wöchentlichen Einträgen.
+Die digitale Version besteht aus einem React Frontend sowie einem FastAPI/Python Backend. 
 
-- Die Übersichtsseite zeigt einen Zeitstrahl mit allen Einträgen.
-- Die Seite zur Auswahl der Eintragsart zeigt Kalenderansichten.
-- Auf der Seite zum Bearbeiten können die täglichen und wöchentlichen Einträge angelegt und geändert werden.
+Das Backend speichert die Einträge im JSON Format, sodass diese auch ohne die App weiter nutzbar sind. Die Daten bleiben also in deinen Händen.
 
-> [!NOTE]
-> Die monatlichen Einträge sind noch nicht implementiert.
+```
+# JSON basiertes Dateiformat
+data/user
+|-- daily
+|   |-- 2024-03-01.json
+|   |-- 2024-03-05.json
+|   |-- 2024-03-06.json
+|   |-- 2024-03-07.json
+|   |-- 2024-03-31.json
+|   `-- 2024-04-01.json
+`-- weekly
+    `-- 2024-14-1.json
+```
 
-### Täglicher Eintrag
-Buch             |  Übersicht | Bearbeiten
-:-------------------------:|:-------------------------:|:-------------------------:|
-![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_4_1400x.jpg?v=1707920303) | ![](public/screenshots/light-home-daily.jpg) | ![](public/screenshots/light-new-daily.jpg)
+Über das Frontend können Einträge angelegt, bearbeitet und angesehen werden. Es besteht aus:
+- Einer Login Seite
+- Einer Übersichtsseite, welche einen Zeitstrahl mit allen Einträgen anzeigt
+- Einer Seite mit Kalenderansichten zum Anlegen eines neuen täglichen oder wöchentlichen Einträge
+- Einer Seite zum Bearbeiten der täglichen und wöchentlichen Einträge
 
-### Wöchentlicher Eintrag
-Buch             |  Übersicht | Bearbeiten
-:-------------------------:|:-------------------------:|:-------------------------:|
-![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | ![](public/screenshots/light-home-weekly.jpg) | ![](public/screenshots/light-new-weekly.jpg)
+### Screenshots
+<details>
+  <summary>Täglicher Eintrag</summary>
+    
+  #### Täglicher Eintrag
+  Buch             |  Übersicht | Bearbeiten
+  :-------------------------:|:-------------------------:|:-------------------------:|
+  ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_4_1400x.jpg?v=1707920303) | ![](public/screenshots/light-home-daily.jpg) | ![](public/screenshots/light-new-daily.jpg)
+</details>
 
-### Monatlicher Eintrag
+<details>
+  <summary>Wöchentlicher Eintrag</summary>
+  #### Wöchentlicher Eintrag
+  Buch             |  Übersicht | Bearbeiten
+  :-------------------------:|:-------------------------:|:-------------------------:|
+  ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | ![](public/screenshots/light-home-weekly.jpg) | ![](public/screenshots/light-new-weekly.jpg)
+</details>
 
-Buch             |  Übersicht | Bearbeiten
-:-------------------------:|:-------------------------:|:-------------------------:|
-![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | *Die monatlichen Einträge sind noch nicht implementiert.* | *Die monatlichen Einträge sind noch nicht implementiert.*
+<details>
+  <summary>Monatlicher Eintrag</summary>
+  #### Monatlicher Eintrag
+  
+  Buch             |  Übersicht | Bearbeiten
+  :-------------------------:|:-------------------------:|:-------------------------:|
+  ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | *Die monatlichen Einträge sind noch nicht implementiert.* | *Die monatlichen Einträge sind noch nicht implementiert.*
+</details>
 
-### Auswahl der Eintragsart
-
-Täglich | Wöchentlich |  Digital
-:-------------------------:|:-------------------------:|:-------------------------:|
-![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_4_1400x.jpg?v=1707920303) | ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | ![](public/screenshots/light-selector.jpg) 
-
-> [!NOTE]
-> Die monatlichen Einträge sind noch nicht implementiert.
+<details>
+  <summary>Neuen Eintrag anlegen</summary>
+  #### Auswahl der Eintragsart
+  
+  Täglich | Wöchentlich |  Digital
+  :-------------------------:|:-------------------------:|:-------------------------:|
+  ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_4_1400x.jpg?v=1707920303) | ![](https://6minutenverlag.de/cdn/shop/files/231129_6MT_Listing_Cremeweiss_6_1400x.jpg?v=1707920303) | ![](public/screenshots/light-selector.jpg) 
+  
+  > [!NOTE]
+  > Die monatlichen Einträge sind noch nicht implementiert.
+</details>
 
 ## Installation
 ```shell
