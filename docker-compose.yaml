@@ -32,7 +32,7 @@ services:
     environment:
       USER_DATABASE_PATH: "data/db.sqlite"
       ACCESS_TOKEN_EXPIRE_MINUTES: 20160
-      APP_SECRET_KEY: '4352c9036368100cb0e7292aae9c0d10eee244b147a1a53148c2cfd19ecbd324'
+      APP_SECRET_KEY: ''
     ports:
       - 62501:81
     volumes:
